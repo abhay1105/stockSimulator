@@ -1,0 +1,195 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 266338304 bytes for Failed to commit area from 0x0000000702600000 to 0x0000000712400000 of length 266338304.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (./open/src/hotspot/os/windows/os_windows.cpp:3275), pid=2280, tid=15220
+#
+# JRE version:  (11.0.8+10) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (11.0.8+10-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dlog4j.configurationFile=log4j2-server.xml -javaagent:C:\added\JetBrains\IntelliJ IDEA 2020.1.4\lib\idea_rt.jar=64844:C:\added\JetBrains\IntelliJ IDEA 2020.1.4\bin -Dfile.encoding=UTF-8 com.abhay.stockSimGame.Driver
+
+Host: Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz, 4 cores, 15G,  Windows 10 , 64 bit Build 19041 (10.0.19041.662)
+Time: Sun Apr 18 23:30:35 2021 Central Daylight Time elapsed time: 0 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000023a1f6aa800):  JavaThread "Unknown thread" [_thread_in_vm, id=15220, stack(0x000000488d300000,0x000000488d400000)]
+
+Stack: [0x000000488d300000,0x000000488d400000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x601aea]
+V  [jvm.dll+0x737fef]
+V  [jvm.dll+0x739675]
+V  [jvm.dll+0x739cf3]
+V  [jvm.dll+0x242848]
+V  [jvm.dll+0x5fef8a]
+V  [jvm.dll+0x5f3eb5]
+V  [jvm.dll+0x2f651c]
+V  [jvm.dll+0x2f63a2]
+V  [jvm.dll+0x2fb056]
+V  [jvm.dll+0x33ce9f]
+V  [jvm.dll+0x33c8d0]
+V  [jvm.dll+0x2d4768]
+V  [jvm.dll+0x2d58c6]
+V  [jvm.dll+0x713e67]
+V  [jvm.dll+0x71570f]
+V  [jvm.dll+0x349c19]
+V  [jvm.dll+0x6f97f0]
+V  [jvm.dll+0x3b2a5f]
+V  [jvm.dll+0x3b4e81]
+C  [jli.dll+0x5213]
+C  [ucrtbase.dll+0x214c2]
+C  [KERNEL32.DLL+0x17034]
+C  [ntdll.dll+0x4d0d1]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x0000023a1d5f4740, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x0000023a1f6c1800 GCTaskThread "GC Thread#0" [stack: 0x000000488d400000,0x000000488d500000] [id=14204]
+  0x0000023a1f71c000 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000488d500000,0x000000488d600000] [id=17424]
+  0x0000023a1f71d800 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000488d600000,0x000000488d700000] [id=10036]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffefc532f67]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0000023a1f6a8030] Heap_lock - owner thread: 0x0000023a1f6aa800
+
+Heap address: 0x0000000702600000, size: 4058 MB, Compressed Oops mode: Non-zero based: 0x0000000702600000
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00007ff6910d0000 - 0x00007ff6910df000 	C:\added\Java\jdk-11.0.8\bin\java.exe
+0x00007fff35170000 - 0x00007fff35366000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007fff339a0000 - 0x00007fff33a5d000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007fff32b40000 - 0x00007fff32e09000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007fff328e0000 - 0x00007fff329e0000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007fff22600000 - 0x00007fff22618000 	C:\added\Java\jdk-11.0.8\bin\jli.dll
+0x00007fff331d0000 - 0x00007fff3327c000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007fff33f80000 - 0x00007fff3401e000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007fff34020000 - 0x00007fff340bc000 	C:\WINDOWS\System32\sechost.dll
+0x00007fff33e30000 - 0x00007fff33f5b000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007fff340c0000 - 0x00007fff34260000 	C:\WINDOWS\System32\USER32.dll
+0x00007fff328b0000 - 0x00007fff328d2000 	C:\WINDOWS\System32\win32u.dll
+0x00007fff335c0000 - 0x00007fff335ea000 	C:\WINDOWS\System32\GDI32.dll
+0x00007fff32f70000 - 0x00007fff33079000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007fff33080000 - 0x00007fff3311d000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007fff108e0000 - 0x00007fff108f5000 	C:\added\Java\jdk-11.0.8\bin\VCRUNTIME140.dll
+0x00007fff1f510000 - 0x00007fff1f7ab000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.488_none_ca04af081b815d21\COMCTL32.dll
+0x00007fff1f7b0000 - 0x00007fff1f7ba000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007fff34c20000 - 0x00007fff34c50000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007fff08420000 - 0x00007fff084bb000 	C:\added\Java\jdk-11.0.8\bin\msvcp140.dll
+0x00007ffefc250000 - 0x00007ffefcd36000 	C:\added\Java\jdk-11.0.8\bin\server\jvm.dll
+0x00007fff35120000 - 0x00007fff35128000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007fff2dcf0000 - 0x00007fff2dcf9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007fff33a60000 - 0x00007fff33acb000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007fff2de50000 - 0x00007fff2de77000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007fff30720000 - 0x00007fff30732000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007fff21730000 - 0x00007fff21740000 	C:\added\Java\jdk-11.0.8\bin\verify.dll
+0x00007fff2b230000 - 0x00007fff2b414000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007fff2aff0000 - 0x00007fff2b01c000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007fff32a90000 - 0x00007fff32b10000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007fff0fc20000 - 0x00007fff0fc48000 	C:\added\Java\jdk-11.0.8\bin\java.dll
+0x00007fff1edb0000 - 0x00007fff1edba000 	C:\added\Java\jdk-11.0.8\bin\jimage.dll
+0x00007fff1eac0000 - 0x00007fff1eace000 	C:\added\Java\jdk-11.0.8\bin\instrument.dll
+0x00007fff0e450000 - 0x00007fff0e466000 	C:\added\Java\jdk-11.0.8\bin\zip.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\added\Java\jdk-11.0.8\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.488_none_ca04af081b815d21;C:\added\Java\jdk-11.0.8\bin\server
+
+VM Arguments:
+jvm_args: -Dlog4j.configurationFile=log4j2-server.xml -javaagent:C:\added\JetBrains\IntelliJ IDEA 2020.1.4\lib\idea_rt.jar=64844:C:\added\JetBrains\IntelliJ IDEA 2020.1.4\bin -Dfile.encoding=UTF-8 
+java_command: com.abhay.stockSimGame.Driver
+java_class_path (initial): C:\Users\Kalyani Koyya\Desktop\Abhay's Desktop\stockSimGame2.0\target\classes;C:\Users\Kalyani Koyya\.m2\repository\io\vertx\vertx-web\3.7.1\vertx-web-3.7.1.jar;C:\Users\Kalyani Koyya\.m2\repository\io\vertx\vertx-web-common\3.7.1\vertx-web-common-3.7.1.jar;C:\Users\Kalyani Koyya\.m2\repository\io\vertx\vertx-auth-common\3.7.1\vertx-auth-common-3.7.1.jar;C:\Users\Kalyani Koyya\.m2\repository\io\vertx\vertx-bridge-common\3.7.1\vertx-bridge-common-3.7.1.jar;C:\Users\Kalyani Koyya\.m2\repository\io\vertx\vertx-core\3.7.1\vertx-core-3.7.1.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-common\4.1.34.Final\netty-common-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-buffer\4.1.34.Final\netty-buffer-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-transport\4.1.34.Final\netty-transport-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-handler\4.1.34.Final\netty-handler-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-codec\4.1.34.Final\netty-codec-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-handler-proxy\4.1.34.Final\netty-handler-proxy-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-codec-socks\4.1.34.Final\netty-codec-socks-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-codec-http\4.1.34.Final\netty-codec-http-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-codec-http2\4.1.34.Final\netty-codec-http2-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-resolver\4.1.34.Final\netty-resolver-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-resolver-dns\4.1.34.Final\netty-resolver-dns-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\io\netty\netty-codec-dns\4.1.34.Final\netty-codec-dns-4.1.34.Final.jar;C:\Users\Kalyani Koyya\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.9.8\jackson-core-2.9.8.jar;C:\Users\Kaly
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 3                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 1                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 4                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 266338304                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 4255121408                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5830732                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122913754                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122913754                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\added\java\jdk1.7.0_45
+CLASSPATH=.
+PATH=C:\Python38\Scripts\;C:\Users\Kalyani Koyya\Desktop\Abhay's Desktop\Swift Applications\Swift\bin;C:\Python38\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\system32\wbem;C:\WINDOWS\system32\windowspowershell\v1.0\;c:\program files\ibm\gsk8\lib64;c:\program files (x86)\ibm\gsk8\lib;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Added\Git\cmd;C:\added\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Users\Kalyani Koyya\AppData\Local\atom\bin;C:\Users\Kalyani Koyya\AppData\Local\Microsoft\WindowsApps;;C:\added\WebStorm 2019.2.3\bin;;C:\Added\JetBrains\IntelliJ IDEA 2020.1.4\bin;;C:\Added\VSCode\bin;C:\Users\Kalyani Koyya\AppData\Roaming\npm;C:\Users\Kalyani Koyya\AppData\Local\Yarn\bin
+USERNAME=Kalyani Koyya
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 19041 (10.0.19041.662)
+
+CPU:total 4 (initial active 4) (2 cores per cpu, 2 threads per core) family 6 model 142 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, 3dnowpref, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, adx, fma
+
+Memory: 4k page, system-wide physical 16227M (7785M free)
+TotalPageFile size 46592M (AvailPageFile size 216M)
+current process WorkingSet (physical memory assigned to process): 9M, peak: 9M
+current process commit charge ("private bytes"): 52M, peak: 306M
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (11.0.8+10-LTS) for windows-amd64 JRE (11.0.8+10-LTS), built on Jun 16 2020 05:53:08 by "mach5one" with unknown MS VC++:1916
+
+END.
