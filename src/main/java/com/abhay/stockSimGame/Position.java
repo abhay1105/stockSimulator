@@ -21,22 +21,24 @@ public class Position {
     // all getter methods located here
     public Account getAccount() { return account; }
     public Stock getStock() { return stock; }
-    public int getNumOfShares() { return numOfShares; }
+    public int getNumOfShares() { return this.numOfShares; }
     public double getMoneyInvested() { return moneyInvested; }
     public double getCurrentValue(double sharePrice) { return sharePrice * numOfShares; }
     public double getProfit(double sharePrice) { return getCurrentValue(sharePrice) - getMoneyInvested(); }
 
     // method to buy shares (aka increase position in stock)
-    public void buyShares(int numOfShares, double sharePrice) {
+    public void buyShares(double numOfShares, double sharePrice) {
         this.numOfShares += numOfShares;
         moneyInvested += sharePrice * numOfShares;
         account.subtractMoney(sharePrice * numOfShares);
+        System.out.println("money invested   " + moneyInvested + "    " + this.numOfShares);
     }
 
     // method to sell shares (aka decrease position in stock)
     public void sellShares(int numOfShares, double sharePrice) {
         this.numOfShares -= numOfShares;
         account.addMoney(sharePrice * numOfShares);
+        System.out.println("money invested   " + moneyInvested + "    " + numOfShares);
     }
 
 }

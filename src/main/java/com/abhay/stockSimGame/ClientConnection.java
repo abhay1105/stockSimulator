@@ -58,6 +58,7 @@ public class ClientConnection {
                 sendStockDataInterval(json);
                 break;
             case "buy_request":
+                System.out.println("buy");
                 buyShares(json);
                 break;
             case "sell_request":
@@ -68,7 +69,8 @@ public class ClientConnection {
 
     // method creates a new player that is associated with this ClientConnection object
     public void createNewPlayer(String playerName) {
-        player = new Player(playerName);
+        // make sure we send the initial balance along with the player's name here
+        player = new Player(playerName, 1000);
         System.out.println("NEW PLAYER CREATED WITH NAME:      " + playerName);
     }
 
@@ -94,6 +96,8 @@ public class ClientConnection {
             game.addPlayer(player);
         } else {
             System.out.println("need to join a game. game codes coming soon");
+            // pass arrayList of all existing games to each client connection
+            // add the new game to the array list if this is not the option selected
         }
         sendUpdatedAccountPage(game);
     }
@@ -146,7 +150,6 @@ public class ClientConnection {
                     // if there is not enough, it will simply give the remaining items in the data ArrayList
                     double endOfInterval = dataCountIndividual + amountOfDataPerInterval;
                     for (int i = dataCountIndividual;i < endOfInterval && i < game.getStockBySymbol((String) stockSymbol).getHistoricalData().size();i++) {
-                        System.out.println(i);
                         BarData barData = game.getStockBySymbol((String) stockSymbol).getHistoricalData().get(i);
                         oneStockIntervalPrices.add(barData.getOpen() / barData.getSplitCoefficient());
                         dataCountIndividual = i + 1;
@@ -164,13 +167,18 @@ public class ClientConnection {
                 if (stockName != null) {
                     oneStockInterval.put("stock_name", stockName);
                 }
-                System.out.println(stockSymbol);
                 oneStockInterval.put("stock_symbol", (String) stockSymbol);
+                for (Position position: player.getAccount().getPositions()) {
+                    if (position.getStock().getSymbol().equals(stockSymbol)) {
+                        oneStockInterval.put("number_of_shares", position.getNumOfShares());
+                    }
+                }
                 completeIntervalData.add(oneStockInterval);
             }
             dataCountMaster += amountOfDataPerInterval;
             JsonObject finalMessage = new JsonObject();
             finalMessage.put("complete_interval_data", completeIntervalData);
+            finalMessage.put("account_balance", player.getAccount().getCurrentBalance());
             finalMessage.put("type", "stock_chart_data_interval");
             webSocket.writeTextMessage(finalMessage.encode());
         });
@@ -187,8 +195,11 @@ public class ClientConnection {
     // method to buy shares in a stock
     public void buyShares(JsonObject json) {
         String stockSymbol = json.getString("stock_symbol");
-        double sharePrice = json.getDouble("share_price");
-        int numOfShares = json.getInteger("number_of_shares");
+        System.out.println(stockSymbol);
+        double sharePrice = Double.parseDouble(json.getString("share_price"));
+        System.out.println(sharePrice);
+        double numOfShares = json.getDouble("number_of_shares");
+        System.out.println(numOfShares);
         for (Position position: player.getAccount().getPositions()) {
             if (position.getStock().getSymbol().equals(stockSymbol)) {
                 position.buyShares(numOfShares, sharePrice);

@@ -1156,3 +1156,267 @@
 2021-04-19 10:07:15.283 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
 2021-04-19 10:07:22.019 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
 2021-04-19 10:08:49.878 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-24 20:47:00.272 | INFO | DRIVER | main | Starting Driver 
+2021-04-24 20:47:01.255 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-24 20:47:01.671 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-24 20:47:01.671 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-24 20:47:02.645 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-24 20:47:34.460 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.03b0669b-1387-4b9f-9f7e-3e1d89729d4c 
+2021-04-24 20:47:34.720 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-24 20:47:34.735 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-24 20:47:53.612 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-24 20:48:17.983 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"24.63","number_of_shares":20,"type":"buy_request"} 
+2021-04-24 20:48:36.151 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-24 20:50:13.809 | INFO | DRIVER | main | Starting Driver 
+2021-04-24 20:50:15.072 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-24 20:50:15.652 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-24 20:50:15.652 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-24 20:50:16.707 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-24 20:50:29.624 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.dc9ec2bf-c015-4e5e-af9c-3c88ea0bdb99 
+2021-04-24 20:50:29.908 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-24 20:50:29.913 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-24 20:50:36.673 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-24 20:50:55.609 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"28.02","number_of_shares":20,"type":"buy_request"} 
+2021-04-24 20:51:13.945 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-24 20:51:49.986 | INFO | DRIVER | main | Starting Driver 
+2021-04-24 20:51:50.893 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-24 20:51:51.304 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-24 20:51:51.304 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-24 20:51:52.095 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-24 20:52:09.004 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.a5a573e3-72ef-45f2-8c3a-af6b182d1bc7 
+2021-04-24 20:52:09.279 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-24 20:52:09.282 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-24 20:52:24.965 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-24 20:52:34.284 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"20.61","number_of_shares":50,"type":"buy_request"} 
+2021-04-24 20:53:09.802 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-24 23:19:45.696 | INFO | DRIVER | main | Starting Driver 
+2021-04-24 23:19:46.649 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-24 23:19:47.239 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-24 23:19:47.239 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-24 23:19:48.128 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-24 23:20:17.683 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.22fa1c2e-6c9f-4793-9307-da76ea382cf8 
+2021-04-24 23:20:17.951 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-24 23:20:17.954 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-24 23:20:23.336 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-24 23:21:58.745 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-24 23:22:36.685 | INFO | DRIVER | main | Starting Driver 
+2021-04-24 23:22:37.630 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-24 23:22:38.032 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-24 23:22:38.032 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-24 23:22:38.861 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-24 23:22:55.505 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.676e523b-4e87-42bd-b67a-32850863988b 
+2021-04-24 23:22:55.779 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-24 23:22:55.783 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-24 23:23:05.611 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-24 23:24:03.064 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"GME","share_price":"16.56","number_of_shares":30,"type":"buy_request"} 
+2021-04-24 23:24:19.762 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-24 23:31:24.196 | INFO | DRIVER | main | Starting Driver 
+2021-04-24 23:31:24.919 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-24 23:31:25.326 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-24 23:31:25.326 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-24 23:31:25.982 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-24 23:31:43.161 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.8547cb27-1387-4058-b831-3b103ed46c5e 
+2021-04-24 23:31:43.381 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-24 23:31:43.385 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-24 23:31:46.569 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-24 23:32:37.102 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"IBM","share_price":"114.03","number_of_shares":50,"type":"buy_request"} 
+2021-04-24 23:35:25.947 | INFO | DRIVER | main | Starting Driver 
+2021-04-24 23:35:26.663 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-24 23:35:27.034 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-24 23:35:27.034 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-24 23:35:27.916 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-24 23:35:49.749 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.4b1b90a9-a4b6-4a9b-b0a5-661f3aaacd99 
+2021-04-24 23:35:50.008 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-24 23:35:50.012 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-24 23:35:56.986 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-24 23:36:08.716 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"20.61","number_of_shares":30,"type":"buy_request"} 
+2021-04-24 23:37:58.035 | INFO | DRIVER | main | Starting Driver 
+2021-04-24 23:37:58.940 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-24 23:37:59.613 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-24 23:37:59.613 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-24 23:38:00.705 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-24 23:38:23.411 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.5e1f657f-2548-40b4-95f1-b9ce7e5cb876 
+2021-04-24 23:38:23.682 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay1123","type":"new_player"} 
+2021-04-24 23:38:23.687 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-24 23:38:31.914 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-24 23:38:44.678 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"21.25","number_of_shares":90,"type":"buy_request"} 
+2021-04-25 00:01:59.261 | INFO | DRIVER | main | Starting Driver 
+2021-04-25 00:02:00.040 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-25 00:02:00.344 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-25 00:02:00.344 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-25 00:02:00.952 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-25 00:02:26.126 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.0466c71b-8582-4fd1-b2e1-13743387129a 
+2021-04-25 00:02:26.373 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-25 00:02:26.377 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-25 00:02:30.008 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-25 00:02:46.729 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"30.2","number_of_shares":23,"type":"buy_request"} 
+2021-04-25 00:04:24.373 | INFO | DRIVER | main | Starting Driver 
+2021-04-25 00:04:25.265 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-25 00:04:25.652 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-25 00:04:25.652 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-25 00:04:26.493 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-25 00:04:50.278 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.7ecba138-93d9-4ed3-a4b0-0605d73dd35f 
+2021-04-25 00:04:50.534 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhayy123","type":"new_player"} 
+2021-04-25 00:04:50.539 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-25 00:04:55.851 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-25 00:05:10.891 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"GME","share_price":"22.5","number_of_shares":20,"type":"buy_request"} 
+2021-04-25 00:08:49.576 | INFO | DRIVER | main | Starting Driver 
+2021-04-25 00:08:50.390 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-25 00:08:50.993 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-25 00:08:50.993 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-25 00:08:52.204 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-25 00:10:59.704 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.0e388bcf-0ebe-43d8-bcd0-cfe1599254e9 
+2021-04-25 00:10:59.969 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-25 00:10:59.973 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-25 00:11:08.810 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-25 00:11:27.205 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"28.02","number_of_shares":30,"type":"buy_request"} 
+2021-04-25 18:11:53.942 | INFO | DRIVER | main | Starting Driver 
+2021-04-25 18:11:54.911 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-25 18:11:55.360 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-25 18:11:55.360 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-25 18:11:56.296 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-25 18:12:17.948 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.2b6ca59e-63ad-4cff-ae7e-9d8386ba44ee 
+2021-04-25 18:12:18.231 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhja123","type":"new_player"} 
+2021-04-25 18:12:18.234 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-25 18:13:08.051 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-25 18:15:47.275 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.86831480-ad3a-4a83-8c94-446e935e2b03 
+2021-04-25 18:15:47.522 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-25 18:15:47.522 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:22:14.644 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 17:22:15.298 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 17:22:15.674 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 17:22:15.674 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 17:22:16.669 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 17:22:33.112 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.d109fb8b-72fb-4824-bc23-8c7aa72e31e6 
+2021-04-27 17:22:33.379 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 17:22:33.396 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:22:44.716 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 17:23:23.007 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.eb748a39-430c-4e49-b997-806ad8a2839c 
+2021-04-27 17:23:23.280 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abay123","type":"new_player"} 
+2021-04-27 17:23:23.281 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:23:59.145 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 17:24:36.181 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 17:24:37.382 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 17:24:37.858 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 17:24:37.858 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 17:24:38.803 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 17:24:45.701 | INFO | DRIVER | Thread-0 | Stopping Driver 
+2021-04-27 17:32:19.569 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 17:32:20.797 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 17:32:21.265 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 17:32:21.265 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 17:32:22.790 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 17:32:39.054 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.5e8d1315-c6ed-4574-ac76-2dabf24b4f28 
+2021-04-27 17:32:39.311 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 17:32:39.314 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:34:05.584 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 17:34:23.892 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.b0493523-0d1e-4c44-ba64-6ab51e653fc7 
+2021-04-27 17:34:24.128 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 17:34:24.128 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:35:34.726 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 17:36:13.220 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.129e42aa-84e2-4bb8-8f3f-6efd8512123b 
+2021-04-27 17:36:13.488 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 17:36:13.489 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:37:12.932 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 17:37:43.281 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.bceec83e-d15e-40f3-a7be-77df685d53df 
+2021-04-27 17:37:43.556 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 17:37:43.556 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:43:56.761 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 17:45:15.958 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.7b285629-adec-4194-812c-5fa6c58bfb78 
+2021-04-27 17:45:16.183 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 17:45:16.183 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:45:20.790 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 17:45:50.309 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 17:58:30.211 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 17:58:31.215 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 17:58:31.583 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 17:58:31.583 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 17:58:32.402 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 17:58:53.636 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.486289a1-d0e4-40f5-96e7-0e645a7c1c9c 
+2021-04-27 17:58:53.889 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 17:58:53.894 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:58:59.657 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 17:59:25.486 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 17:59:44.654 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 17:59:45.631 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 17:59:46.041 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 17:59:46.041 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 17:59:46.894 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 17:59:56.037 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.c55682d4-fe47-445c-b63c-f8c2ff515603 
+2021-04-27 17:59:56.291 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 17:59:56.294 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 17:59:58.971 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 18:00:33.691 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 18:00:43.099 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 18:00:46.179 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 18:00:46.580 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 18:00:46.580 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 18:00:50.013 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 18:01:13.577 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.02db3123-f478-4b93-a954-70ea2fe99d97 
+2021-04-27 18:01:13.861 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 18:01:13.865 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 18:01:17.796 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 18:02:15.732 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"28.5","number_of_shares":50,"type":"buy_request"} 
+2021-04-27 18:04:26.470 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 18:04:27.381 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 18:04:27.893 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 18:04:27.893 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 18:04:28.703 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 18:06:01.338 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.5b030bed-fab8-45a3-ada7-dabd654ce513 
+2021-04-27 18:06:01.576 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 18:06:01.580 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 18:06:07.975 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 18:06:47.564 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"GME","share_price":"10.25","number_of_shares":50,"type":"buy_request"} 
+2021-04-27 18:09:56.358 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 18:18:32.096 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 18:18:33.726 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 18:18:34.422 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 18:18:34.422 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 18:18:35.881 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 18:19:10.908 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.ead34acd-2acd-46fb-a6c4-cf6a2a245fef 
+2021-04-27 18:19:11.361 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 18:19:11.366 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 18:19:31.507 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 18:21:12.735 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"37.94","number_of_shares":50,"type":"buy_request"} 
+2021-04-27 18:21:50.905 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 18:28:52.309 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 18:28:56.551 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 18:28:57.705 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 18:28:57.706 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 18:29:00.685 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 18:29:08.023 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.c9f01e60-9f6f-4829-a6a2-666260f570e6 
+2021-04-27 18:29:08.395 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 18:29:08.399 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 18:29:50.563 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 18:30:27.022 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 18:32:04.183 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 18:32:06.824 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 18:32:08.067 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 18:32:08.068 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 18:32:12.455 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 18:32:23.240 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.ad657fdf-ed98-47bf-9da4-f06dd3e7abae 
+2021-04-27 18:32:23.734 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 18:32:23.739 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 18:32:32.223 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 18:33:06.860 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"27.0","number_of_shares":50,"type":"buy_request"} 
+2021-04-27 18:38:37.706 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 18:38:39.400 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 18:38:40.324 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 18:38:40.324 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 18:38:41.754 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 18:40:57.569 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.52aa70d2-d4ae-4b02-964b-3037a7a4d8e6 
+2021-04-27 18:40:57.944 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 18:40:57.948 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 18:41:02.122 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 18:42:55.263 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-04-27 19:21:49.847 | INFO | DRIVER | main | Starting Driver 
+2021-04-27 19:21:52.026 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-04-27 19:21:52.822 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-04-27 19:21:52.822 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-04-27 19:21:54.691 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-04-27 19:22:27.532 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.82600c8d-e6a8-453d-93c8-84c7eac0af3b 
+2021-04-27 19:22:27.966 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-04-27 19:22:27.994 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","type":"new_or_current_game"} 
+2021-04-27 19:22:35.523 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA","GME","IBM"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-04-27 19:22:54.219 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"28.02","number_of_shares":50,"type":"buy_request"} 
+2021-04-27 19:23:07.648 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
