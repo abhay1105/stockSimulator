@@ -58,7 +58,6 @@ public class ClientConnection {
                 sendStockDataInterval(json);
                 break;
             case "buy_request":
-                System.out.println("buy");
                 buyShares(json);
                 break;
             case "sell_request":
@@ -211,8 +210,8 @@ public class ClientConnection {
     // method to sell shares in a stock
     public void sellShares(JsonObject json) {
         String stockSymbol = json.getString("stock_symbol");
-        double sharePrice = json.getDouble("share_price");
-        int numOfShares = json.getInteger("number_of_shares");
+        double sharePrice = Double.parseDouble(json.getString("share_price"));
+        double numOfShares = json.getDouble("number_of_shares");
         for (Position position: player.getAccount().getPositions()) {
             if (position.getStock().getSymbol().equals(stockSymbol)) {
                 position.sellShares(numOfShares, sharePrice);

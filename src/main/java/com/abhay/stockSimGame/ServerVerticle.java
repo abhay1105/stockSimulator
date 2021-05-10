@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 
+// WAS TAKEN FROM A VERTX STARTER ON GITHUB AND MODIFIED FOR PERSONAL USE
+
 public class ServerVerticle extends AbstractVerticle {
 
     // all variables located here

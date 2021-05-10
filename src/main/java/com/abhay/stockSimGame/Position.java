@@ -35,10 +35,10 @@ public class Position {
     }
 
     // method to sell shares (aka decrease position in stock)
-    public void sellShares(int numOfShares, double sharePrice) {
+    public void sellShares(double numOfShares, double sharePrice) {
         this.numOfShares -= numOfShares;
         account.addMoney(sharePrice * numOfShares);
-        System.out.println("money invested   " + moneyInvested + "    " + numOfShares);
+        System.out.println("money invested   " + moneyInvested + "    " + this.numOfShares);
     }
 
 }

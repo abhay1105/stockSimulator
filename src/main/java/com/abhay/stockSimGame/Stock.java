@@ -107,6 +107,8 @@ public class Stock {
     // method will write a file containing the information gathered from the API about a particular stock
     public void writeStockFile() throws IOException, InterruptedException {
 
+        // IMPLEMENTATION OF API WAS LEARNED THROUGH THE USE OF RAPIDAPI
+
         // if not, we make the request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=" + symbol + "&outputsize=full&apikey=9MFKMGNE0JRT1HWU"))

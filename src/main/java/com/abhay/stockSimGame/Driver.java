@@ -7,6 +7,8 @@ import io.vertx.rxjava.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// WAS TAKEN FROM A VERTX STARTER ON GITHUB AND MODIFIED FOR PERSONAL USE
+
 public class Driver {
 
     private Vertx   m_vertx = null;
