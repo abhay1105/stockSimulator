@@ -8,6 +8,7 @@ import io.vertx.rxjava.core.Vertx;
 import org.slf4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 // class will take care of the connection between the server and a client
@@ -19,12 +20,15 @@ public class ClientConnection {
     private Player                       player;
     private Game                         game;
     private Vertx                        m_vertx;
+    private ArrayList<Game>              allGames;
+    private long                         timerID;
 
     // class constructor
-    public ClientConnection(Vertx m_vertx, ServerWebSocket webSocket, Logger logger) {
+    public ClientConnection(Vertx m_vertx, ServerWebSocket webSocket, Logger logger, ArrayList<Game> allGames) {
         this.m_vertx = m_vertx;
         this.webSocket = webSocket;
         this.logger = logger;
+        this.allGames = allGames;
         webSocket.handler(buffer -> {
             logger.info(buffer.toString());
             try {
@@ -66,6 +70,11 @@ public class ClientConnection {
         }
     }
 
+    // method will help us make sure that our double values are rounded to the nearest cent
+    public double roundToNearestPenny(double num) {
+        return (double) Math.round(num * 100) / 100;
+    }
+
     // method creates a new player that is associated with this ClientConnection object
     public void createNewPlayer(String playerName) {
         // make sure we send the initial balance along with the player's name here
@@ -75,6 +84,7 @@ public class ClientConnection {
 
     // method to send the information in order to update a client's account page
     public void sendUpdatedAccountPage(Game game) {
+        System.out.println("start of update account page func");
         JsonObject json = new JsonObject();
         json.put("player_name", player.getName());
         JsonArray jsonArray = new JsonArray();
@@ -82,24 +92,57 @@ public class ClientConnection {
             jsonArray.add(stock.getSymbol());
         }
         json.put("stocks", jsonArray);
+        json.put("game_code", game.getGameID());
+        json.put("first_player_score", roundToNearestPenny(player.getAccount().getCurrentBalance()));
+        json.put("time_remaining", game.getTimePeriod());
         json.put("type", "updated_account_page_info");
         webSocket.writeTextMessage(json.encode());
+        System.out.println("end of update account page func");
     }
 
     // method will be in charge of creating a new game or joining a current one
     public void createOrJoinGame(JsonObject json) throws IOException, InterruptedException {
         // purpose is due to the fact that an updated accountPage should be sent regardless of if they create a
         // game or if they join a game
-        game = new Game("multiple-stocks");
         if (json.getString("player_choice").equals("yes")) {
+            ArrayList<String> stockNames = new ArrayList<>();
+            ArrayList<String> stockSymbols = new ArrayList<>();
+            for (int i = 0;i < json.getJsonArray("stock_names").size();i++) {
+                stockNames.add(json.getJsonArray("stock_names").getString(i));
+                stockSymbols.add(json.getJsonArray("stock_symbols").getString(i));
+            }
+            System.out.println("before game created");
+            game = new Game(json.getString("mode"), stockNames, stockSymbols, json.getDouble("starting_balance"), json.getDouble("game_time"));
+            System.out.println("after game created");
             game.addPlayer(player);
         } else {
-            System.out.println("need to join a game. game codes coming soon");
-            // pass arrayList of all existing games to each client connection
-            // add the new game to the array list if this is not the option selected
+            String gameCode = json.getString("game_code");
+            for (Game game: allGames) {
+                if (gameCode.equals(game.getGameID())) {
+                    this.game = game;
+                    game.addPlayer(player);
+                }
+            }
         }
         sendUpdatedAccountPage(game);
+        System.out.println("account info sent");
     }
+
+    // method to update the leaderboard of players in the game
+    public void sendUpdatedLeaderBoard() {
+        JsonObject jsonObject = new JsonObject();
+        JsonArray players = new JsonArray();
+        JsonArray scores = new JsonArray();
+        for (int i = 0;i < game.getPlayers().size();i++) {
+            players.add(game.getPlayers().get(i).getName());
+            scores.add(game.getPlayers().get(i).getAccount().getCurrentBalance());
+        }
+        jsonObject.put("players", players);
+        jsonObject.put("scores", scores);
+        jsonObject.put("type", "updated_leaderboard");
+    }
+
+//    call above function
 
     // method will send all of the appropriate stock data the server has based on the request made by the client
     public void sendStockDataFull(JsonObject json) {
@@ -128,66 +171,98 @@ public class ClientConnection {
     // used in sendStockDataInterval() method
     private int dataCountMaster = 0;
 
+    // used in sendStockDataInterval() method
+    private double totalProgressOfMilliseconds = 0;
+
     // method will send all of the appropriate stock data in intervals based on a specific time length
-    public void sendStockDataInterval(JsonObject json) throws InterruptedException {
+    public void sendStockDataInterval(JsonObject json) {
 
         JsonArray jsonArray = json.getJsonArray("stock_symbols");
         double intervalTime = json.getDouble("interval_time");
         double amountOfDataPerInterval = json.getDouble("amount_per_interval");
-        AtomicBoolean stopTimer = new AtomicBoolean(false);
 
-        long timerID = m_vertx.setPeriodic((long) intervalTime, aLong -> {
-            // this chunk of code is expected to go into the actual timer body
-            JsonArray completeIntervalData = new JsonArray();
-            for (Object stockSymbol: jsonArray) {
-                int dataCountIndividual = dataCountMaster;
-                JsonObject oneStockInterval = new JsonObject();
-                JsonArray oneStockIntervalPrices = new JsonArray();
-                String stockName = null;
-                if (game.getStockBySymbol((String) stockSymbol) != null) {
-                    // or statement in for loop will either give us the next blank data points based on the client's request or
-                    // if there is not enough, it will simply give the remaining items in the data ArrayList
-                    double endOfInterval = dataCountIndividual + amountOfDataPerInterval;
-                    for (int i = dataCountIndividual;i < endOfInterval && i < game.getStockBySymbol((String) stockSymbol).getHistoricalData().size();i++) {
-                        BarData barData = game.getStockBySymbol((String) stockSymbol).getHistoricalData().get(i);
-                        oneStockIntervalPrices.add(barData.getOpen() / barData.getSplitCoefficient());
-                        dataCountIndividual = i + 1;
+        // will run every second regardless, but will technically only send data every time a full interval has been completed
+        timerID = m_vertx.setPeriodic((long) 1000, aLong -> {
+
+            // setting account statistics at 0 every loop of timer so that we can update them accordingly by adding all
+            // the individual statistics of the stocks
+            double currentValueAccount = 0;
+            double moneyInvestedAccount = 0;
+
+            // runs every time a full interval is ran
+            if (totalProgressOfMilliseconds % intervalTime == 0) {
+
+                // keeps track of number of milliseconds so far
+                totalProgressOfMilliseconds += 1000;
+
+                // this chunk of code is expected to go into the actual timer body
+                JsonArray completeIntervalData = new JsonArray();
+                for (Object stockSymbol: jsonArray) {
+                    int dataCountIndividual = dataCountMaster;
+                    JsonObject oneStockInterval = new JsonObject();
+                    JsonArray oneStockIntervalPrices = new JsonArray();
+                    String stockName = null;
+                    if (game.getStockBySymbol((String) stockSymbol) != null) {
+                        // or statement in for loop will either give us the next blank data points based on the client's request or
+                        // if there is not enough, it will simply give the remaining items in the data ArrayList
+                        double endOfInterval = dataCountIndividual + amountOfDataPerInterval;
+                        for (int i = dataCountIndividual;i < endOfInterval && i < game.getStockBySymbol((String) stockSymbol).getHistoricalData().size();i++) {
+                            BarData barData = game.getStockBySymbol((String) stockSymbol).getHistoricalData().get(i);
+                            oneStockIntervalPrices.add(barData.getOpen() / barData.getSplitCoefficient());
+                            dataCountIndividual = i + 1;
+                        }
+                        // this message will allow the client to know whether or not there is more data to come
+                        if (dataCountIndividual == game.getStockBySymbol((String) stockSymbol).getHistoricalData().size()) {
+                            oneStockInterval.put("data_finished", "true");
+                        } else {
+                            oneStockInterval.put("data_finished", "false");
+                        }
+                        stockName = game.getStockBySymbol((String) stockSymbol).getName();
                     }
-                    // this message will allow the client to know whether or not there is more data to come
-                    if (dataCountIndividual == game.getStockBySymbol((String) stockSymbol).getHistoricalData().size()) {
-                        oneStockInterval.put("data_finished", "true");
-                        stopTimer.set(true);
-                    } else {
-                        oneStockInterval.put("data_finished", "false");
+                    oneStockInterval.put("open_prices", oneStockIntervalPrices);
+                    if (stockName != null) {
+                        oneStockInterval.put("stock_name", stockName);
                     }
-                    stockName = game.getStockBySymbol((String) stockSymbol).getName();
-                }
-                oneStockInterval.put("open_prices", oneStockIntervalPrices);
-                if (stockName != null) {
-                    oneStockInterval.put("stock_name", stockName);
-                }
-                oneStockInterval.put("stock_symbol", (String) stockSymbol);
-                for (Position position: player.getAccount().getPositions()) {
-                    if (position.getStock().getSymbol().equals(stockSymbol)) {
-                        oneStockInterval.put("number_of_shares", position.getNumOfShares());
+                    oneStockInterval.put("stock_symbol", (String) stockSymbol);
+                    for (Position position: player.getAccount().getPositions()) {
+                        if (position.getStock().getSymbol().equals(stockSymbol)) {
+                            oneStockInterval.put("number_of_shares", position.getNumOfShares());
+                            oneStockInterval.put("current_value_stock", roundToNearestPenny(position.getNumOfShares() * oneStockIntervalPrices.getDouble(oneStockIntervalPrices.size() - 1)));
+                            oneStockInterval.put("amount_invested_stock", roundToNearestPenny(position.getMoneyInvested()));
+                            currentValueAccount += position.getNumOfShares() * oneStockIntervalPrices.getDouble(oneStockIntervalPrices.size() - 1);
+                            moneyInvestedAccount += position.getMoneyInvested();
+                        }
                     }
+                    completeIntervalData.add(oneStockInterval);
                 }
-                completeIntervalData.add(oneStockInterval);
+                dataCountMaster += amountOfDataPerInterval;
+                JsonObject finalMessage = new JsonObject();
+                finalMessage.put("complete_interval_data", completeIntervalData);
+                finalMessage.put("current_value_account", roundToNearestPenny(currentValueAccount));
+                finalMessage.put("money_invested_account", roundToNearestPenny(moneyInvestedAccount));
+                finalMessage.put("profit_or_loss_account", roundToNearestPenny(currentValueAccount - moneyInvestedAccount));
+                finalMessage.put("account_balance", roundToNearestPenny(player.getAccount().getCurrentBalance()));
+                finalMessage.put("total_num_of_milliseconds_left", game.getTimePeriod() - totalProgressOfMilliseconds);
+                finalMessage.put("type", "stock_chart_data_interval");
+                webSocket.writeTextMessage(finalMessage.encode());
+                sendUpdatedLeaderBoard();
+            } else {
+                // this section will run every second, except when the full interval of time has been complete
+                JsonObject finalMessage = new JsonObject();
+                totalProgressOfMilliseconds += 1000;
+                finalMessage.put("total_num_of_milliseconds_left", game.getTimePeriod() - totalProgressOfMilliseconds);
+                finalMessage.put("type", "empty_timer_run");
+                webSocket.writeTextMessage(finalMessage.encode());
             }
-            dataCountMaster += amountOfDataPerInterval;
-            JsonObject finalMessage = new JsonObject();
-            finalMessage.put("complete_interval_data", completeIntervalData);
-            finalMessage.put("account_balance", player.getAccount().getCurrentBalance());
-            finalMessage.put("type", "stock_chart_data_interval");
-            webSocket.writeTextMessage(finalMessage.encode());
-        });
 
-        // stopping the timer once there is no longer enough data in one of the stocks (at least for now, eventually
-        // we will add an end time to stop)
-        if (stopTimer.get()) {
-            System.out.println("stopped timer due to lack of data");
-            m_vertx.cancelTimer(timerID);
-        }
+            // stopping the timer once there is no longer enough data in one of the stocks (at least for now, eventually
+            // we will add an end time to stop)
+            if (game.getTimePeriod() == totalProgressOfMilliseconds) {
+                System.out.println("stopped timer due to lack of data");
+                m_vertx.cancelTimer(timerID);
+            }
+
+        });
 
     }
 

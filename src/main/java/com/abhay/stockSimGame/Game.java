@@ -6,19 +6,8 @@ import java.util.ArrayList;
 // class will take care of the entire management of game
 public class Game {
 
-    // some good tips to note will be located here
-
-    // the starting screen will have some sort of feature to either join a game or create a game (so generating number
-    //    and letter game codes will be important later) these codes can be verified in some sort of arrayList or something
-    // I can use an animation timer in order to simulate the smaller time frame (this will also make it easier for me to
-    //    redraw the same time length of graphs when the user switches a stock from a list view)
-    // I can maybe add a checkbox or a dropdown in order to select a game mode
-    // *******We can have a separate screen on our starting page so that a user can set their desired options for a new game,
-    //    however none of the options will need to be registered until they actually press new game
-
     // Alpha-Vantage API ID
     // 9MFKMGNE0JRT1HWU
-
 
     // all variables located here
     private String mode;
@@ -26,12 +15,29 @@ public class Game {
     private double timePeriod, timeProgress;
     private Market market;
     private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<String> stockNames;
+    private ArrayList<String> stockSymbols;
     private String gameID;
+    private double startingBalance;
 
-    // class constructor
+    // class constructor for testing purposes
     public Game(String mode) throws IOException, InterruptedException {
         this.mode = mode;
         // game ID can be randomly created in here
+        createGameID();
+        determineMarket(); // will use the settings given in order to create the market the host wants
+        retrieveMarketHistoricalData(); // will get any data that we don't already have
+    }
+
+    // second constructor for actual game use
+    public Game(String mode, ArrayList<String> stockNames, ArrayList<String> stockSymbols, double startingBalance, double timePeriod) throws IOException, InterruptedException {
+        this.mode = mode;
+        this.stockNames = stockNames;
+        this.stockSymbols = stockSymbols;
+        this.startingBalance = startingBalance;
+        this.timePeriod = timePeriod * 60000; // converting the minutes into milliseconds
+        // game ID can be randomly created in here
+        createGameID();
         determineMarket(); // will use the settings given in order to create the market the host wants
         retrieveMarketHistoricalData(); // will get any data that we don't already have
     }
@@ -46,21 +52,43 @@ public class Game {
     public ArrayList<Player> getPlayers() { return players; }
     public String getGameID() { return gameID; }
 
-    // method to add a player
+    // method to add a player and do all actions required to set the player up
     public void addPlayer(Player player) {
         players.add(player);
         createPlayerPositions(player);
+        setStartingBalance(player);
+    }
+
+    // random integer function
+    public int randomNumber(int lowerBound, int upperBound) {
+        return (int)(Math.floor((Math.random() * (upperBound - lowerBound + 1))) + lowerBound);
+    }
+
+    // method to create a randomly generated game code
+    public void createGameID() {
+        String code = "";
+        for (int i = 0;i < 6;i++) {
+            code += (char) randomNumber(65, 90);
+        }
+        gameID = code;
     }
 
     // method to determine the stocks the players will trade with (dependent on which mode the player will choose)
     public void determineMarket() {
         ArrayList<Stock> stocks = new ArrayList<>();
-        stocks.add(new Stock("Tesla Motors", "TSLA"));
-        if (mode.equals("one-stock")) {
+        // first two parts of if are for testing purposes
+        if (mode.equals("one-stock-test")) {
+            stocks.add(new Stock("Tesla Motors", "TSLA"));
             market = new Market(stocks);
-        } else if (mode.equals("multiple-stocks")) {
+        } else if (mode.equals("multiple-stocks-test")) {
+            stocks.add(new Stock("Tesla Motors", "TSLA"));
             stocks.add(new Stock("Gamestop", "GME"));
             stocks.add(new Stock("International Business Machines", "IBM"));
+            market = new Market(stocks);
+        } else {
+            for (int i = 0;i < stockNames.size();i++) {
+                stocks.add(new Stock(stockNames.get(i), stockSymbols.get(i)));
+            }
             market = new Market(stocks);
         }
     }
@@ -88,6 +116,12 @@ public class Game {
             }
         }
         return null;
+    }
+
+    // method will set the initial balance of every player's account to the starting balance value
+    public void setStartingBalance(Player player) {
+        player.getAccount().setInitialBalance(startingBalance);
+        player.getAccount().setCurrentBalance(startingBalance);
     }
 
 }

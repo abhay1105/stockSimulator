@@ -1,6 +1,8 @@
 package com.abhay.stockSimGame;
 
 
+import java.util.ArrayList;
+
 // class will represent one position in a stock
 public class Position {
 
@@ -9,6 +11,7 @@ public class Position {
     private int numOfShares;
     private double moneyInvested;
     private Account account;
+    private ArrayList<Double> amountOfSharePricesBuyList = new ArrayList<>();
 
     // class constructor
     public Position(Account account, Stock stock) {
@@ -29,16 +32,31 @@ public class Position {
     // method to buy shares (aka increase position in stock)
     public void buyShares(double numOfShares, double sharePrice) {
         this.numOfShares += numOfShares;
-        moneyInvested += sharePrice * numOfShares;
+        for (int i = 0;i < numOfShares;i++) {
+            amountOfSharePricesBuyList.add(sharePrice);
+        }
+        calculateAmountInvested();
         account.subtractMoney(sharePrice * numOfShares);
-        System.out.println("money invested   " + moneyInvested + "    " + this.numOfShares);
     }
 
     // method to sell shares (aka decrease position in stock)
     public void sellShares(double numOfShares, double sharePrice) {
         this.numOfShares -= numOfShares;
+        for (int i = 0;i < numOfShares;i++) {
+            if (amountOfSharePricesBuyList.size() != 0) {
+                amountOfSharePricesBuyList.remove(0);
+            }
+        }
+        calculateAmountInvested();
         account.addMoney(sharePrice * numOfShares);
-        System.out.println("money invested   " + moneyInvested + "    " + this.numOfShares);
+    }
+
+    // method to calculate the amount of money invested into a specific stock
+    public void calculateAmountInvested() {
+        moneyInvested = 0;
+        for (Double sharePrice: amountOfSharePricesBuyList) {
+            moneyInvested += sharePrice;
+        }
     }
 
 }

@@ -52,6 +52,10 @@ public class Account {
 
     public double getCurrentBalance() { return currentBalance; }
 
+    // all setter methods located here
+    public void setInitialBalance(double balance) { initialBalance = balance; }
+    public void setCurrentBalance(double balance) { currentBalance = balance; }
+
     // both methods below will only be used when buying or selling shares in a position
 
     // method to subtract money from our account's current balance

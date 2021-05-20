@@ -8,6 +8,8 @@ import io.vertx.ext.web.Router;
 import io.vertx.rxjava.core.Vertx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 // WAS TAKEN FROM A VERTX STARTER ON GITHUB AND MODIFIED FOR PERSONAL USE
@@ -20,6 +22,7 @@ public class ServerVerticle extends AbstractVerticle {
     private JsonObject                                  m_config = null;
     private HashMap<String, ClientConnection>           map = new HashMap<>();
     private Vertx                                       m_vertx;
+    private ArrayList<Game>                             allGames = new ArrayList<>();
 
     public ServerVerticle(Vertx m_vertx) {
         super();
@@ -51,7 +54,7 @@ public class ServerVerticle extends AbstractVerticle {
                         // whenever a new client has connected
                         server.websocketStream().handler(socket -> {
                             // creates a new ClientConnection for every new client that connects to the server
-                            ClientConnection newClient = new ClientConnection(m_vertx, socket, m_logger);
+                            ClientConnection newClient = new ClientConnection(m_vertx, socket, m_logger, allGames);
                             // map will allow us to keep track of all of our ClientConnections using the respective
                             // socket IDs
                             map.put(socket.textHandlerID(), newClient);
