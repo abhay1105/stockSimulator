@@ -2,6 +2,7 @@ package com.abhay.stockSimGame;
 
 
 import io.vertx.core.http.ServerWebSocket;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Vertx;
@@ -18,6 +19,7 @@ public class ClientConnection {
     private ServerWebSocket              webSocket;
     private Logger                       logger;
     private Player                       player;
+    private EMAPlayer                    emaPlayer = new EMAPlayer();
     private Game                         game;
     private Vertx                        m_vertx;
     private ArrayList<Game>              allGames;
@@ -115,6 +117,8 @@ public class ClientConnection {
             game = new Game(json.getString("mode"), stockNames, stockSymbols, json.getDouble("starting_balance"), json.getDouble("game_time"));
             System.out.println("after game created");
             game.addPlayer(player);
+            // adding any computer opponents after
+            game.addPlayer(emaPlayer);
         } else {
             String gameCode = json.getString("game_code");
             for (Game game: allGames) {
@@ -129,17 +133,16 @@ public class ClientConnection {
     }
 
     // method to update the leaderboard of players in the game
-    public void sendUpdatedLeaderBoard() {
-        JsonObject jsonObject = new JsonObject();
+    public void sendUpdatedLeaderBoard(JsonObject jsonObject) {
         JsonArray players = new JsonArray();
         JsonArray scores = new JsonArray();
         for (int i = 0;i < game.getPlayers().size();i++) {
             players.add(game.getPlayers().get(i).getName());
             scores.add(game.getPlayers().get(i).getAccount().getCurrentBalance());
+            System.out.println("current balance:    " + game.getPlayers().get(i).getAccount().getCurrentBalance());
         }
         jsonObject.put("players", players);
         jsonObject.put("scores", scores);
-        jsonObject.put("type", "updated_leaderboard");
     }
 
 //    call above function
@@ -182,7 +185,7 @@ public class ClientConnection {
         double amountOfDataPerInterval = json.getDouble("amount_per_interval");
 
         // will run every second regardless, but will technically only send data every time a full interval has been completed
-        timerID = m_vertx.setPeriodic((long) 1000, aLong -> {
+        timerID = m_vertx.setPeriodic(1000, aLong -> {
 
             // setting account statistics at 0 every loop of timer so that we can update them accordingly by adding all
             // the individual statistics of the stocks
@@ -209,6 +212,7 @@ public class ClientConnection {
                         for (int i = dataCountIndividual;i < endOfInterval && i < game.getStockBySymbol((String) stockSymbol).getHistoricalData().size();i++) {
                             BarData barData = game.getStockBySymbol((String) stockSymbol).getHistoricalData().get(i);
                             oneStockIntervalPrices.add(barData.getOpen() / barData.getSplitCoefficient());
+                            emaPlayer.updateDataLists((String) stockSymbol, barData.getOpen() / barData.getSplitCoefficient());
                             dataCountIndividual = i + 1;
                         }
                         // this message will allow the client to know whether or not there is more data to come
@@ -243,9 +247,9 @@ public class ClientConnection {
                 finalMessage.put("profit_or_loss_account", roundToNearestPenny(currentValueAccount - moneyInvestedAccount));
                 finalMessage.put("account_balance", roundToNearestPenny(player.getAccount().getCurrentBalance()));
                 finalMessage.put("total_num_of_milliseconds_left", game.getTimePeriod() - totalProgressOfMilliseconds);
+                sendUpdatedLeaderBoard(finalMessage);
                 finalMessage.put("type", "stock_chart_data_interval");
                 webSocket.writeTextMessage(finalMessage.encode());
-                sendUpdatedLeaderBoard();
             } else {
                 // this section will run every second, except when the full interval of time has been complete
                 JsonObject finalMessage = new JsonObject();

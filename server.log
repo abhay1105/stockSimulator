@@ -1664,3 +1664,127 @@
 2021-05-20 00:07:21.185 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"272.5","number_of_shares":5,"type":"buy_request"} 
 2021-05-20 00:07:29.501 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"236.63","number_of_shares":3,"type":"sell_request"} 
 2021-05-20 00:07:51.190 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-20 16:06:56.095 | INFO | DRIVER | main | Starting Driver 
+2021-05-20 16:06:58.242 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-20 16:06:59.319 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-20 16:06:59.319 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-20 16:07:00.951 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-20 16:08:16.844 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.589e2cfa-7876-497d-bb9e-3f4b71131886 
+2021-05-20 16:08:16.894 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-20 16:08:16.907 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["AT&T Inc"],"stock_symbols":["T"],"mode":"single-stock","starting_balance":12345.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-20 16:09:46.555 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["T"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-20 16:10:12.419 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"T","share_price":"44.44","number_of_shares":10,"type":"buy_request"} 
+2021-05-20 16:11:01.049 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"T","share_price":"39.4","number_of_shares":5,"type":"sell_request"} 
+2021-05-20 16:11:44.399 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"T","share_price":"24.0","number_of_shares":5,"type":"sell_request"} 
+2021-05-20 16:12:12.405 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-20 16:16:03.783 | INFO | DRIVER | main | Starting Driver 
+2021-05-20 16:16:05.284 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-20 16:16:05.765 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-20 16:16:05.765 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-20 16:16:06.613 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-20 16:18:59.885 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.e469efdb-9f62-43fa-9061-281fb98cdd5e 
+2021-05-20 16:18:59.949 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abababab","type":"new_player"} 
+2021-05-20 16:18:59.962 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["Sprint Corp"],"stock_symbols":["S"],"mode":"single-stock","starting_balance":10000.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-20 16:19:27.834 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["S"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-20 16:19:43.614 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"S","share_price":"59.12","number_of_shares":10,"type":"buy_request"} 
+2021-05-20 16:23:08.065 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-20 16:25:16.312 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.b2b686b1-b0c5-45d9-8d55-49f466886aba 
+2021-05-20 16:25:16.353 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-20 16:25:16.366 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["Guess Inc"],"stock_symbols":["GES"],"mode":"single-stock","starting_balance":10000.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-20 16:25:32.065 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["GES"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-20 16:27:05.901 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-20 16:27:38.672 | INFO | DRIVER | main | Starting Driver 
+2021-05-20 16:27:39.589 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-20 16:27:40.107 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-20 16:27:40.107 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-20 16:27:40.940 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-20 16:28:29.623 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.bf8918c9-bd97-4fdf-a33d-b1136272115f 
+2021-05-20 16:28:29.696 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay","type":"new_player"} 
+2021-05-20 16:28:29.710 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["Apple Inc"],"stock_symbols":["AAPL"],"mode":"single-stock","starting_balance":0.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-20 16:28:56.872 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["AAPL"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-20 16:32:45.244 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-20 16:33:22.557 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.e728c685-c533-4ce4-92cb-03b6e3775851 
+2021-05-20 16:33:22.605 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-20 16:33:22.617 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["Sprint Corp"],"stock_symbols":["S"],"mode":"single-stock","starting_balance":10000.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-20 16:33:29.157 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["S"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-20 16:34:31.762 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-20 17:00:20.297 | INFO | DRIVER | main | Starting Driver 
+2021-05-20 17:00:23.831 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-20 17:00:24.658 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-20 17:00:24.658 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-20 17:00:27.496 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-20 17:00:59.877 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.97c7a9f2-327e-4fd8-bac3-ce083c141e03 
+2021-05-20 17:00:59.934 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-20 17:00:59.946 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["Tesla Inc"],"stock_symbols":["TSLA"],"mode":"single-stock","starting_balance":10000.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-20 17:01:08.935 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["TSLA"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-20 17:01:21.217 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"21.25","number_of_shares":10,"type":"buy_request"} 
+2021-05-20 23:21:29.737 | INFO | DRIVER | main | Starting Driver 
+2021-05-20 23:21:34.211 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-20 23:21:35.224 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-20 23:21:35.224 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-20 23:21:39.068 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-20 23:22:35.540 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.a38a20c7-f18a-4a0b-a29f-b1048ba47b0c 
+2021-05-20 23:22:35.636 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-20 23:22:35.656 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["AT&T Inc"],"stock_symbols":["T"],"mode":"single-stock","starting_balance":0.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-20 23:22:42.598 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["T"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-20 23:23:50.639 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"T","share_price":"37.85","number_of_shares":10,"type":"buy_request"} 
+2021-05-20 23:24:00.885 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"T","share_price":"38.6","number_of_shares":10,"type":"sell_request"} 
+2021-05-20 23:24:58.946 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-21 02:04:40.185 | INFO | DRIVER | main | Starting Driver 
+2021-05-21 02:04:44.179 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-21 02:04:45.430 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-21 02:04:45.430 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-21 02:04:49.184 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-21 02:06:21.523 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.ef47ef1c-7284-4e78-a14d-ddc4f78b22cc 
+2021-05-21 02:06:21.616 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-21 02:06:21.634 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["AT&T Inc"],"stock_symbols":["T"],"mode":"single-stock","starting_balance":10000.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-21 02:06:50.282 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["T"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-21 02:08:02.031 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-21 02:18:33.410 | INFO | DRIVER | main | Starting Driver 
+2021-05-21 02:18:35.046 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-21 02:18:35.882 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-21 02:18:35.883 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-21 02:18:40.710 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-21 02:30:34.874 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.b246ba64-838d-4a98-afd9-27fad82228d1 
+2021-05-21 02:30:34.962 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"soham","type":"new_player"} 
+2021-05-21 02:30:34.992 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["AT&T Inc"],"stock_symbols":["T"],"mode":"single-stock","starting_balance":0.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-21 02:30:56.858 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-21 02:32:01.587 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.c6f31e63-3b8c-4d7c-b9ea-14b1d109c9a5 
+2021-05-21 02:32:01.650 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"soham","type":"new_player"} 
+2021-05-21 02:32:01.672 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["AT&T Inc","Tesla Inc"],"stock_symbols":["T","TSLA"],"mode":"multiple-stocks","starting_balance":10000.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-21 02:32:32.821 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["T","TSLA"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-21 02:32:55.891 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"T","share_price":"47.25","number_of_shares":10,"type":"buy_request"} 
+2021-05-21 02:33:14.216 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"TSLA","share_price":"26.39","number_of_shares":20,"type":"buy_request"} 
+2021-05-21 02:38:49.037 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-21 02:59:12.069 | INFO | DRIVER | main | Starting Driver 
+2021-05-21 02:59:16.982 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-21 02:59:18.443 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-21 02:59:18.444 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-21 02:59:24.218 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-21 03:01:00.109 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.4a4a3a74-2044-48e0-b81a-0a4d130558dc 
+2021-05-21 03:01:00.246 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-21 03:01:00.276 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["AT&T Inc"],"stock_symbols":["T"],"mode":"single-stock","starting_balance":12345.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-21 03:01:16.398 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["T"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-21 03:01:52.856 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-21 03:29:55.570 | INFO | DRIVER | main | Starting Driver 
+2021-05-21 03:29:58.539 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-21 03:29:59.880 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-21 03:29:59.880 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-21 03:30:06.378 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-21 03:30:52.806 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.4e5f7b6a-f23b-4c82-aea9-138b7e558799 
+2021-05-21 03:30:52.884 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-21 03:30:52.900 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["AT&T Inc"],"stock_symbols":["T"],"mode":"single-stock","starting_balance":10000.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-21 03:31:05.411 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["T"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-21 03:31:18.821 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"T","share_price":"42.94","number_of_shares":10,"type":"buy_request"} 
+2021-05-21 03:31:54.795 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"T","share_price":"45.21","number_of_shares":10,"type":"sell_request"} 
+2021-05-21 03:33:24.429 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | socket closed 
+2021-05-21 03:36:07.829 | INFO | DRIVER | main | Starting Driver 
+2021-05-21 03:36:09.377 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Starting StarterVerticle 
+2021-05-21 03:36:09.982 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | config retrieved 
+2021-05-21 03:36:09.982 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Got config 
+2021-05-21 03:36:12.185 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Server now listening on 8080 
+2021-05-21 03:36:45.951 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | Connection ID=__vertx.ws.4543ca10-88a4-4292-9842-0c6e980434fa 
+2021-05-21 03:36:46.040 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_name":"abhay123","type":"new_player"} 
+2021-05-21 03:36:46.053 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"player_choice":"yes","stock_names":["Sprint Corp"],"stock_symbols":["S"],"mode":"single-stock","starting_balance":10000.0,"game_time":2.0,"type":"new_or_current_game"} 
+2021-05-21 03:37:13.791 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbols":["S"],"interval_time":3000.0,"amount_per_interval":10.0,"type":"stock_data_request_interval"} 
+2021-05-21 03:37:26.485 | INFO | APIVERTICLE | vert.x-eventloop-thread-0 | {"stock_symbol":"S","share_price":"58.5","number_of_shares":10,"type":"buy_request"} 
