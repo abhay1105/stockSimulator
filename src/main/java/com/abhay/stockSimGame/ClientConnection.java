@@ -2,7 +2,6 @@ package com.abhay.stockSimGame;
 
 
 import io.vertx.core.http.ServerWebSocket;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Vertx;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 // class will take care of the connection between the server and a client
 public class ClientConnection {
@@ -19,7 +17,8 @@ public class ClientConnection {
     private ServerWebSocket              webSocket;
     private Logger                       logger;
     private Player                       player;
-    private EMAPlayer                    emaPlayer = new EMAPlayer();
+    private MACDPlayer                   macdPlayer = new MACDPlayer();
+    private AROONPlayer                  aroonPlayer = new AROONPlayer();
     private Game                         game;
     private Vertx                        m_vertx;
     private ArrayList<Game>              allGames;
@@ -86,7 +85,6 @@ public class ClientConnection {
 
     // method to send the information in order to update a client's account page
     public void sendUpdatedAccountPage(Game game) {
-        System.out.println("start of update account page func");
         JsonObject json = new JsonObject();
         json.put("player_name", player.getName());
         JsonArray jsonArray = new JsonArray();
@@ -99,7 +97,6 @@ public class ClientConnection {
         json.put("time_remaining", game.getTimePeriod());
         json.put("type", "updated_account_page_info");
         webSocket.writeTextMessage(json.encode());
-        System.out.println("end of update account page func");
     }
 
     // method will be in charge of creating a new game or joining a current one
@@ -113,12 +110,11 @@ public class ClientConnection {
                 stockNames.add(json.getJsonArray("stock_names").getString(i));
                 stockSymbols.add(json.getJsonArray("stock_symbols").getString(i));
             }
-            System.out.println("before game created");
             game = new Game(json.getString("mode"), stockNames, stockSymbols, json.getDouble("starting_balance"), json.getDouble("game_time"));
-            System.out.println("after game created");
             game.addPlayer(player);
             // adding any computer opponents after
-            game.addPlayer(emaPlayer);
+            game.addPlayer(macdPlayer);
+            game.addPlayer(aroonPlayer);
         } else {
             String gameCode = json.getString("game_code");
             for (Game game: allGames) {
@@ -129,23 +125,25 @@ public class ClientConnection {
             }
         }
         sendUpdatedAccountPage(game);
-        System.out.println("account info sent");
     }
 
     // method to update the leaderboard of players in the game
-    public void sendUpdatedLeaderBoard(JsonObject jsonObject) {
+    public void sendUpdatedLeaderBoard(JsonObject jsonObject, double playerCurrentValueAccount) {
         JsonArray players = new JsonArray();
         JsonArray scores = new JsonArray();
         for (int i = 0;i < game.getPlayers().size();i++) {
-            players.add(game.getPlayers().get(i).getName());
-            scores.add(game.getPlayers().get(i).getAccount().getCurrentBalance());
-            System.out.println("current balance:    " + game.getPlayers().get(i).getAccount().getCurrentBalance());
+            Player gamePlayer = game.getPlayers().get(i);
+            if (gamePlayer == player) {
+                players.add(gamePlayer.getName());
+                scores.add(roundToNearestPenny(gamePlayer.getAccount().getCurrentBalance() + playerCurrentValueAccount));
+            } else {
+                players.add(gamePlayer.getName());
+                scores.add(roundToNearestPenny(gamePlayer.getAccount().getCurrentBalance() + gamePlayer.getCurrentValue()));
+            }
         }
         jsonObject.put("players", players);
         jsonObject.put("scores", scores);
     }
-
-//    call above function
 
     // method will send all of the appropriate stock data the server has based on the request made by the client
     public void sendStockDataFull(JsonObject json) {
@@ -156,9 +154,6 @@ public class ClientConnection {
         if (game.getStockBySymbol(stockSymbol) != null) {
             for (BarData barData: game.getStockBySymbol(stockSymbol).getHistoricalData()) {
                 jsonArray.add(barData.getOpen() / barData.getSplitCoefficient());
-                if ((barData.getOpen() / barData.getSplitCoefficient()) > 2000) {
-                    System.out.println(barData.toString());
-                }
             }
             stockName = game.getStockBySymbol(stockSymbol).getName();
         }
@@ -212,7 +207,8 @@ public class ClientConnection {
                         for (int i = dataCountIndividual;i < endOfInterval && i < game.getStockBySymbol((String) stockSymbol).getHistoricalData().size();i++) {
                             BarData barData = game.getStockBySymbol((String) stockSymbol).getHistoricalData().get(i);
                             oneStockIntervalPrices.add(barData.getOpen() / barData.getSplitCoefficient());
-                            emaPlayer.updateDataLists((String) stockSymbol, barData.getOpen() / barData.getSplitCoefficient());
+                            macdPlayer.updateDataLists((String) stockSymbol, barData.getOpen() / barData.getSplitCoefficient());
+                            aroonPlayer.updateDataLists((String) stockSymbol, barData.getOpen() / barData.getSplitCoefficient());
                             dataCountIndividual = i + 1;
                         }
                         // this message will allow the client to know whether or not there is more data to come
@@ -247,7 +243,7 @@ public class ClientConnection {
                 finalMessage.put("profit_or_loss_account", roundToNearestPenny(currentValueAccount - moneyInvestedAccount));
                 finalMessage.put("account_balance", roundToNearestPenny(player.getAccount().getCurrentBalance()));
                 finalMessage.put("total_num_of_milliseconds_left", game.getTimePeriod() - totalProgressOfMilliseconds);
-                sendUpdatedLeaderBoard(finalMessage);
+                sendUpdatedLeaderBoard(finalMessage, currentValueAccount);
                 finalMessage.put("type", "stock_chart_data_interval");
                 webSocket.writeTextMessage(finalMessage.encode());
             } else {
@@ -273,11 +269,8 @@ public class ClientConnection {
     // method to buy shares in a stock
     public void buyShares(JsonObject json) {
         String stockSymbol = json.getString("stock_symbol");
-        System.out.println(stockSymbol);
         double sharePrice = Double.parseDouble(json.getString("share_price"));
-        System.out.println(sharePrice);
         double numOfShares = json.getDouble("number_of_shares");
-        System.out.println(numOfShares);
         for (Position position: player.getAccount().getPositions()) {
             if (position.getStock().getSymbol().equals(stockSymbol)) {
                 position.buyShares(numOfShares, sharePrice);

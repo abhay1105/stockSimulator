@@ -18,5 +18,10 @@ public class Player {
     public String getName() { return name; }
     public Account getAccount() { return account; }
 
+    public double getCurrentValue() {
+        System.out.println("CURRENT VALUE FUNCTION DOES NOT EXIST FOR PLAYER SUBCLASS");
+        return 0;
+    }
+
 }
 

@@ -1,0 +1,879 @@
+SERVER SIDE
+
+MACDPLAYER CLASS
+
+package com.abhay.stockSimGame;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+// class will manage a subclass of player that trades using difference between slow and fast moving averages
+public class MACDPlayer extends Player {
+
+    // all variables located here
+    private Map<String, ArrayList<Double>> stockDataPoints = new HashMap<>();
+    private Map<String, ArrayList<Double>> slowMovingAverages = new HashMap<>();
+    private Map<String, ArrayList<Double>> fastMovingAverages = new HashMap<>();
+    private Map<String, ArrayList<Double>> trendAnalysisValues = new HashMap<>();
+    private int slowIntervalLength = 10;
+    private int fastIntervalLength = 5;
+    private double riskFactor = 1;
+
+    // class constructor
+    public MACDPlayer() {
+        super("TraderJim(MACD)", 1000);
+    }
+
+    // method to update the data lists
+    public void updateDataLists(String stockSymbol, double dataPoint) {
+        if (stockDataPoints.keySet().contains(stockSymbol)) {
+            stockDataPoints.get(stockSymbol).add(dataPoint);
+            updateMovingAverages(stockSymbol);
+            if (slowMovingAverages.get(stockSymbol).size() > 0) {
+                trendAnalysisValues.get(stockSymbol).add(determineMarketTrend(stockSymbol));
+                buyOrSellShare(stockSymbol);
+            }
+        } else {
+            stockDataPoints.put(stockSymbol, new ArrayList<>());
+            slowMovingAverages.put(stockSymbol, new ArrayList<>());
+            fastMovingAverages.put(stockSymbol, new ArrayList<>());
+            trendAnalysisValues.put(stockSymbol, new ArrayList<>());
+        }
+    }
+
+    // method to update the moving averages every time a data point is added to the list
+    public void updateMovingAverages(String stockSymbol) {
+        ArrayList<Double> dataList = stockDataPoints.get(stockSymbol);
+        checkForLargeDataset(stockSymbol, dataList, fastIntervalLength, fastMovingAverages);
+        checkForLargeDataset(stockSymbol, dataList, slowIntervalLength, slowMovingAverages);
+    }
+
+    // method to check if our data sets are large enough to calculate the moving averages
+    public void checkForLargeDataset(String stockSymbol, ArrayList<Double> dataList, int intervalLength, Map<String, ArrayList<Double>> movingAverages) {
+        if (dataList.size() >= intervalLength) {
+            int sum = 0;
+            for (int i = dataList.size() - intervalLength; i < dataList.size(); i++) {
+                sum += dataList.get(i);
+            }
+            movingAverages.get(stockSymbol).add((double) (sum / intervalLength));
+        }
+    }
+
+    // method to determine whether or not the market has an upward or downward trend
+    public double determineMarketTrend(String stockSymbol) {
+        ArrayList<Double> fastMovingAverageList = fastMovingAverages.get(stockSymbol);
+        ArrayList<Double> slowMovingAverageList = slowMovingAverages.get(stockSymbol);
+        // if value below is positive, then the market is on an upward trend; else, it is on a downward trend
+        return fastMovingAverageList.get(fastMovingAverageList.size() - 1) - slowMovingAverageList.get(slowMovingAverageList.size() - 1);
+    }
+
+    // method will buy or sell a stock if it notices a trend has changed
+    public void buyOrSellShare(String stockSymbol) {
+        ArrayList<Position> allPositions = getAccount().getPositions();
+        for (Position position: allPositions) {
+            if (position.getStock().getSymbol().equals(stockSymbol)) {
+                double currentNumOfShares = position.getNumOfShares();
+                if (trendAnalysisValues.get(stockSymbol).size() >= 3) {
+                    System.out.print("TREND ANALYSIS:   ");
+                    for (Double doub: trendAnalysisValues.get(stockSymbol)) {
+                        System.out.print(doub + "    ");
+                    }
+                    System.out.println();
+                    double firstAnalysisValue = trendAnalysisValues.get(stockSymbol).get(trendAnalysisValues.get(stockSymbol).size() - 2);
+                    double secondAnalysisValue = trendAnalysisValues.get(stockSymbol).get(trendAnalysisValues.get(stockSymbol).size() - 1);
+                    if (firstAnalysisValue == 0) {
+                        // called the third value, but it is technically the one before the first value
+                        // essentially, if zero is involved as an analysis value, we then want to increase our range so that we can look around zero
+                        double thirdAnalysisValue = trendAnalysisValues.get(stockSymbol).get(trendAnalysisValues.get(stockSymbol).size() - 3);
+                        compareAnalysisValues(stockSymbol, position, currentNumOfShares, thirdAnalysisValue, secondAnalysisValue);
+                    } else {
+                        compareAnalysisValues(stockSymbol, position, currentNumOfShares, firstAnalysisValue, secondAnalysisValue);
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    // method created to compare the analysis values depending on what type of trend change we are looking at
+    public void compareAnalysisValues(String stockSymbol, Position position, double currentNumOfShares, double analysisValue1, double analysisValue2) {
+        if (analysisValue1 > 0 && analysisValue2 < 0) {
+            // we want to sell a stock when the trend has switched to downwards
+            System.out.println(" jim sold a stock ");
+            if (currentNumOfShares > 0) {
+                position.sellShares(riskFactor, stockDataPoints.get(stockSymbol).get(stockDataPoints.get(stockSymbol).size() - 1));
+            }
+        } else if (analysisValue1 < 0 && analysisValue2 > 0) {
+            // we want to buy a stock when the trend has switched to upwards
+            System.out.println(" jim bought a stock ");
+            position.buyShares(riskFactor, stockDataPoints.get(stockSymbol).get(stockDataPoints.get(stockSymbol).size() - 1));
+        }
+    }
+
+    // method will return the current value of the computer bot's portfolio
+    public double getCurrentValue() {
+        double sum = 0;
+        for (Position position: getAccount().getPositions()) {
+            ArrayList<Double> dataList = stockDataPoints.get(position.getStock().getSymbol());
+            sum += position.getNumOfShares() * dataList.get(dataList.size() - 1);
+        }
+        return sum;
+    }
+
+}
+
+
+AROONPLAYER CLASS
+
+package com.abhay.stockSimGame;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+// class will manage a subclass of player that trades using aroon numbers
+public class AROONPlayer extends Player {
+
+    // all variables located here
+    private Map<String, ArrayList<Double>> stockDataPoints = new HashMap<>();
+    private Map<String, ArrayList<Double>> aroonUp = new HashMap<>();
+    private Map<String, ArrayList<Double>> aroonDown = new HashMap<>();
+    private Map<String, ArrayList<Boolean>> isBullishMarket = new HashMap<>();
+    private int intervalLength = 25;
+    private double high, low;
+    private int highDistance, lowDistance;
+    private double riskFactor = 1;
+
+    // class constructor
+    public AROONPlayer() {
+        super("TraderKimbo(AROON)", 1000);
+    }
+
+    // method to update the data lists
+    public void updateDataLists(String stockSymbol, double dataPoint) {
+        if (stockDataPoints.keySet().contains(stockSymbol)) {
+            stockDataPoints.get(stockSymbol).add(dataPoint);
+            updateAroonNumbers(stockSymbol);
+        } else {
+            stockDataPoints.put(stockSymbol, new ArrayList<>());
+            aroonUp.put(stockSymbol, new ArrayList<>());
+            aroonDown.put(stockSymbol, new ArrayList<>());
+            isBullishMarket.put(stockSymbol, new ArrayList<>());
+        }
+    }
+
+    // method to update the moving averages every time a data point is added to the list
+    public void updateAroonNumbers(String stockSymbol) {
+        ArrayList<Double> dataList = stockDataPoints.get(stockSymbol);
+        if (dataList.size() >= intervalLength) {
+            checkForHighAndLow(dataList);
+            calculateAroonNumbers(stockSymbol);
+        }
+    }
+
+    // method to check for a high and a low in the last interval
+    public void checkForHighAndLow(ArrayList<Double> dataList) {
+        double newHigh = Double.MIN_VALUE;
+        double newLow = Double.MAX_VALUE;
+        for (int i = dataList.size() - intervalLength;i < dataList.size();i++) {
+            if (dataList.get(i) >= newHigh) {
+                newHigh = dataList.get(i);
+                highDistance = 0;
+            } else {
+                highDistance++;
+            }
+            if (dataList.get(i) <= newLow) {
+                newLow = dataList.get(i);
+                lowDistance = 0;
+            } else {
+                lowDistance++;
+            }
+        }
+        high = newHigh;
+        low = newLow;
+    }
+
+    // method to actually calculate the aroon numbers now that the high, low, highDistance, and lowDistance have been calculated
+    public void calculateAroonNumbers(String stockSymbol) {
+        aroonUp.get(stockSymbol).add((((double) (intervalLength - highDistance) / intervalLength) * 100));
+        aroonDown.get(stockSymbol).add((((double) (intervalLength - lowDistance) / intervalLength) * 100));
+        compareAroonUpAndDown(stockSymbol);
+    }
+
+    // method will determine behavior of market depending on comparison of aroon up and aroon down
+    public void compareAroonUpAndDown(String stockSymbol) {
+        ArrayList<Double> aroonUpList = aroonUp.get(stockSymbol);
+        ArrayList<Double> aroonDownList = aroonDown.get(stockSymbol);
+        // if aroon up is greater than aroon down, then the market is bullish
+        // if aroon up is less than aroon down, then the market is bearish
+        isBullishMarket.get(stockSymbol).add(aroonUpList.get(aroonUpList.size() - 1) > aroonDownList.get(aroonDownList.size() - 1));
+        buyOrSellFromBehavior(stockSymbol);
+    }
+
+    // method created to compare the switch from bullish to bearish and vice versa
+    public void buyOrSellFromBehavior(String stockSymbol) {
+        for (Position position: getAccount().getPositions()) {
+            if (position.getStock().getSymbol().equals(stockSymbol) && isBullishMarket.get(stockSymbol).size() >= 2) {
+                boolean analysisValue1 = isBullishMarket.get(stockSymbol).get(isBullishMarket.get(stockSymbol).size() - 2);
+                boolean analysisValue2 = isBullishMarket.get(stockSymbol).get(isBullishMarket.get(stockSymbol).size() - 1);
+                if (analysisValue1 && !analysisValue2) {
+                    // we want to sell a stock when the trend has switched to downwards
+                    System.out.println(" kimbo sold a stock ");
+                    if (position.getNumOfShares() > 0) {
+                        position.sellShares(riskFactor, stockDataPoints.get(stockSymbol).get(stockDataPoints.get(stockSymbol).size() - 1));
+                    }
+                } else if (!analysisValue1 && analysisValue2) {
+                    // we want to buy a stock when the trend has switched to upwards
+                    System.out.println(" kimbo bought a stock ");
+                    position.buyShares(riskFactor, stockDataPoints.get(stockSymbol).get(stockDataPoints.get(stockSymbol).size() - 1));
+                }
+                break;
+            }
+        }
+    }
+
+    // method will return the current value of the computer bot's portfolio
+    public double getCurrentValue() {
+        double sum = 0;
+        for (Position position: getAccount().getPositions()) {
+            ArrayList<Double> dataList = stockDataPoints.get(position.getStock().getSymbol());
+            sum += position.getNumOfShares() * dataList.get(dataList.size() - 1);
+        }
+        return sum;
+    }
+
+
+}
+
+
+
+CLIENT SIDE
+
+STARTINGPAGECONTROLLER CLASS
+
+package sample;
+
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.core.eventbus.MessageProducer;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import org.slf4j.Logger;
+
+import javafx.event.ActionEvent;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.ArrayList;
+
+public class StartingPageController {
+
+    // all fx elements located here
+    @FXML
+    TextField txtfiEnterNickname, txtfiGameCode, txtfiStartingBalance;
+    @FXML
+    Button btnCreateNewGame, btnJoinCurrentGame, btnSetStartBalance, btnAddSearchedStock, btnRemoveSelectedStock;
+    @FXML
+    AnchorPane anchOptionsScreen;
+    @FXML
+    TextArea txtarStockSearch;
+    @FXML
+    ListView lstSearchResults, lstSelectedStocks;
+    @FXML
+    Label lblSearch;
+    @FXML
+    CheckBox chSingle, chMulti, chFree, chTwo, chFive, chTen;
+
+    private final ClientHandler clientHandler;
+    private final Logger logger;
+
+    // to communicate with vertx websocket using verticle
+    private final EventBus vertxEventBus;
+    // to receive messages from server
+    private final MessageConsumer<String> busConsumer;
+    // to send messages to server
+    private final MessageProducer<String> busProducer;
+
+    private AccountPageController accountPageController;
+    private ActionEvent actionEvent;
+    private Parent root;
+
+    // global variables to help keep track of desired game settings
+    private String mode;
+    private double timeInMin;
+    private int maxNumStocks;
+    private ArrayList<String> stockSymbols = new ArrayList<>();
+    private ArrayList<String> stockNames = new ArrayList<>();
+
+    // to keep track of whether or not a player will request for a new game or join a current game
+    private String newOrCurrentGame;
+
+    // controller constructor
+    public StartingPageController() throws IOException {
+
+        // since this is the first controller our application will go to, we will need to create new objects in order
+        // to handle the incoming server messages, as well to send messages to our server
+        clientHandler = new ClientHandler("127.0.0.1", 8080, "nickname");
+        logger = LoggerFactory.getLogger(StartingPageController.class);
+        vertxEventBus = clientHandler.getVertxEventBus();
+        // doing .consumer() and .publisher() creates new busProducers and busConsumers with the string addresses
+        busConsumer = vertxEventBus.consumer("socket-inbound");
+        busProducer = vertxEventBus.publisher("socket-outbound");
+
+        // lines below will allow us to make sure that any other fxControllers have the access to the objects
+        // required to communicate with the server
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
+        root = loader.load();
+        accountPageController = loader.getController();
+        accountPageController.transferVertxObjects(clientHandler);
+
+        // attach a handler to receive messages
+        busConsumer.handler(msg -> {
+            String message = msg.body();
+            logger.info("Received {}", message);
+
+            // handles all incoming messages from GameClientVerticle
+            try {
+                handleMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // for now echo it back
+            // busProducer.write("ECHO " + message);
+        });
+    }
+
+    // method to connect the client to the server
+    public void connectToServer(ActionEvent event) {
+        // connecting the javafx client to our http server
+        clientHandler.startClient("127.0.0.1", 8080, "nickname");
+        // used to load next scene
+        actionEvent = event;
+    }
+
+    // method to create a new game
+    public void createNewGame(ActionEvent event) {
+        newOrCurrentGame = "newGame";
+        connectToServer(event);
+    }
+
+    // method to join a current game
+    public void joinCurrentGame(ActionEvent event) {
+        newOrCurrentGame = "currentGame";
+        connectToServer(event);
+    }
+
+    // method takes in every message that is incoming from the busProducer in the GameClientVerticle and processes it
+    public void handleMessage(String message) throws IOException {
+        JsonObject json = new JsonObject(message);
+        if (json.getString("type").equals("socket_connected")) {
+            // the first thing we are doing when the socket is officially connected
+            sendNewPlayerName();
+            sendCurrentOrNewGame();
+        } else if (json.getString("type").equals("updated_account_page_info")) {
+            receiveUpdatedAccountPage(json);
+        }
+    }
+
+    // method to send a message of the new player's name to the server
+    public void sendNewPlayerName() {
+        String name = txtfiEnterNickname.getText();
+        JsonObject json = new JsonObject();
+        json.put("player_name", name);
+        json.put("type", "new_player");
+        busProducer.write(json.encode());
+    }
+
+    // method to send a message to the server letting them know whether a current game is being joined
+    // or a new game has to be created
+    public void sendCurrentOrNewGame() {
+        String choice;
+        JsonObject json = new JsonObject();
+        if (newOrCurrentGame.equals("newGame")) {
+            // for creating new games
+            choice = "yes";
+            json.put("player_choice", choice);
+            JsonArray stockNamesArray = new JsonArray();
+            JsonArray stockSymbolsArray = new JsonArray();
+            for (int i = 0;i < stockNames.size();i++) {
+                stockNamesArray.add(stockNames.get(i));
+                stockSymbolsArray.add(stockSymbols.get(i));
+            }
+            json.put("stock_names", stockNamesArray);
+            json.put("stock_symbols", stockSymbolsArray);
+            json.put("mode", mode);
+            json.put("starting_balance", Double.parseDouble(txtfiStartingBalance.getText()));
+            json.put("game_time", timeInMin);
+        } else {
+            // for joining current games
+            choice = "no";
+            json.put("player_choice", choice);
+            json.put("game_code", txtfiGameCode.getText());
+        }
+        json.put("type", "new_or_current_game");
+        busProducer.write(json.encode());
+        System.out.println("send current or new message works");
+    }
+
+    // method to load in the account page of the particular player
+    public void receiveUpdatedAccountPage(JsonObject json) throws IOException {
+
+        Platform.runLater(() -> {
+
+            // setting the scene to the next page
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setTitle("Stock Simulator 2.0 Account Page");
+            stage.setScene(new Scene(root, 1500, 750));
+            // actually updating our accountPage with the new player information
+            accountPageController.lblAccountName.setText(json.getString("player_name") + "'s Account");
+            accountPageController.lstStockSelect.getItems().clear();
+            accountPageController.lblGameCode.setText("Game Code: " + json.getString("game_code"));
+            accountPageController.lstGamePlayers.getItems().clear();
+            accountPageController.lblAccountBalance.setText("$" + json.getDouble("first_player_score"));
+            accountPageController.lstGamePlayers.getItems().add(json.getString("player_name") + "                    $" + json.getDouble("first_player_score"));
+            JsonArray jsonArray = json.getJsonArray("stocks");
+            for (int index = 0; index < jsonArray.size(); ++index) {
+                accountPageController.lstStockSelect.getItems().add(jsonArray.getString(index));
+            }
+            stage.show();
+
+        });
+
+    }
+
+    // method will switch between the options screen for creating a new game and the main screen for entering a name
+    // and either joining or actually creating a game
+    boolean visibility = false;
+    public void switchOptionsScreen() {
+        visibility = !visibility;
+        anchOptionsScreen.setVisible(visibility);
+    }
+
+    // all settings related methods will be found below
+    public void singleChoiceMode() {
+        mode = "single-stock"; maxNumStocks = 1;
+        lblSearch.setText("Select Stocks for Play (Max " + maxNumStocks + "):");
+        chMulti.setSelected(false);
+        chFree.setSelected(false);
+    }
+    public void multiChoiceMode() {
+        mode = "multiple-stocks"; maxNumStocks = 10;
+        lblSearch.setText("Select Stocks for Play (Max " + maxNumStocks + "):");
+        chSingle.setSelected(false);
+        chFree.setSelected(false);
+    }
+    public void freestyleChoiceMode() {
+        mode = "freestyle";
+        maxNumStocks = 50;
+        lblSearch.setText("Select Stocks for Play (Max " + maxNumStocks + "):");
+        chSingle.setSelected(false);
+        chMulti.setSelected(false);
+    }
+    public void twoMinChoiceTime() { timeInMin = 2; chFive.setSelected(false); chTen.setSelected(false); }
+    public void fiveMinChoiceTime() { timeInMin = 5; chTwo.setSelected(false); chTen.setSelected(false); }
+    public void tenMinChoiceTime() { timeInMin = 10; chTwo.setSelected(false); chFive.setSelected(false); }
+    public void updateStockSearchResults() throws IOException, InterruptedException {
+        String searchEntry = txtarStockSearch.getText();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=" + searchEntry + "&apikey=9MFKMGNE0JRT1HWU"))
+                .header("x-rapidapi-key", "SIGN-UP-FOR-KEY")
+                .header("x-rapidapi-host", "alpha-vantage.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+        JsonObject json = new JsonObject(response.body());
+        JsonArray jsonArray = json.getJsonArray("bestMatches");
+        lstSearchResults.getItems().clear();
+        for (Object object: jsonArray) {
+            JsonObject jsonObject = (JsonObject) object;
+            String name = jsonObject.getString("2. name");
+            String symbol = jsonObject.getString("1. symbol");
+            lstSearchResults.getItems().add(name + " (" + symbol + ")");
+        }
+    }
+    public void addSearchedStock() {
+        if (stockSymbols.size() < maxNumStocks) {
+            String selectedString = lstSearchResults.getSelectionModel().getSelectedItem().toString();
+            stockNames.add(selectedString.substring(0, selectedString.indexOf("(") - 1));
+            stockSymbols.add(selectedString.substring(selectedString.indexOf("(") + 1, selectedString.indexOf(")")));
+            lstSelectedStocks.getItems().add(selectedString);
+        }
+    }
+    public void removeSelectedStock() {
+        String selectedString = lstSelectedStocks.getSelectionModel().getSelectedItem().toString();
+        for (int i = 0;i < stockSymbols.size();i++) {
+            if (selectedString.substring(0, selectedString.indexOf("(") - 1).equals(stockNames.get(i))) {
+                stockNames.remove(i);
+            }
+            if (selectedString.substring(selectedString.indexOf("(") + 1, selectedString.indexOf(")")).equals(stockSymbols.get(i))) {
+                stockSymbols.remove(i);
+                break;
+            }
+        }
+        lstSelectedStocks.getItems().remove(selectedString);
+    }
+
+
+}
+
+
+ACCOUNTPAGECONTROLLER CLASS
+
+package sample;
+
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.core.eventbus.MessageProducer;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import org.slf4j.Logger;
+
+import javafx.event.ActionEvent;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.*;
+
+public class AccountPageController {
+
+    // all fx elements will be initialized here
+    @FXML
+    AnchorPane anchAccountPage;
+    @FXML
+    ListView lstStockSelect, lstGamePlayers;
+    @FXML
+    Label lblAccountName, lblStockName, lblCurrentSharePrice, lblCurrentSharePriceNumber, lblAccountBalance,
+            lblShareNumber, lblAmountInvested, lblProfitOrLoss, lblCurrentValue, lblAmountInvestedStock,
+            lblCurrentValueStock, lblGameCode, lblTimeRemaining;
+    @FXML
+    NumberAxis xaxisStock, yaxisStock;
+    @FXML
+    TextField txtfiNumOfShares;
+    @FXML
+    LineChart chrtStock;
+    @FXML
+    Button btnBuyShares, btnSellShares, btnStart;
+
+    private ClientHandler clientHandler = null;
+    private Logger logger = null;
+
+    // to communicate with vertx websocket using verticle
+    private EventBus vertxEventBus = null;
+    // to receive messages from server
+    private MessageConsumer<String> busConsumer = null;
+    // to send messages to server
+    private MessageProducer<String> busProducer = null;
+
+    // method that will receive all of the objects required in order to communicate with the server (this was all
+    // initialized in the StartingPageController, so it needs to be transferred to every other fxController class)
+    public void transferVertxObjects(ClientHandler clientHandler) {
+
+        this.clientHandler = clientHandler;
+        this.logger = LoggerFactory.getLogger(AccountPageController.class);
+        this.vertxEventBus = clientHandler.getVertxEventBus();
+        this.busConsumer = vertxEventBus.consumer("socket-inbound");
+        this.busProducer = vertxEventBus.publisher("socket-outbound");
+
+        // attach a handler to receive messages
+        this.busConsumer.handler(msg -> {
+
+            String message = msg.body();
+            logger.info("Received {}", message);
+
+            // handles all incoming messages from GameClientVerticle
+            try {
+                handleMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // for now echo it back
+            // busProducer.write("ECHO " + message);
+        });
+    }
+
+    // method takes in every message that is incoming from the busProducer in the GameClientVerticle and processes it
+    public void handleMessage(String message) throws IOException {
+        JsonObject json = new JsonObject(message);
+        String messageType = json.getString("type");
+        if (messageType.equals("stock_chart_data_full")) {
+            // Platform.runLater()s must consistently be used due to the fact that JavaFX changes and vertx processes
+            // cannot occur on the same Thread
+            Platform.runLater(() -> {
+                updateChartFull(json);
+            });
+        } else if (messageType.equals("stock_chart_data_interval")) {
+            Platform.runLater(() -> {
+                updateChartInterval(json);
+            });
+        } else if (messageType.equals("empty_timer_run")) {
+            Platform.runLater(() -> {
+                double totalNumOfMillisecondsLeft = json.getDouble("total_num_of_milliseconds_left");
+                int minutesRemaining = (int) totalNumOfMillisecondsLeft / 60000;
+                int secondsRemaining = ((int) totalNumOfMillisecondsLeft % 60000) / 1000;
+                if (secondsRemaining < 10) {
+                    lblTimeRemaining.setText(minutesRemaining + ":0" + secondsRemaining);
+                } else {
+                    lblTimeRemaining.setText(minutesRemaining + ":" + secondsRemaining);
+                }
+            });
+        }
+    }
+
+    // methods below will update the graph to whatever stock has been selected at the given time
+
+    // method will send a request to server in order to get the full data for a specific stock
+    public void sendSelectedStockFull() {
+        String stockSymbol = (String) lstStockSelect.getSelectionModel().getSelectedItem();
+        JsonObject json = new JsonObject();
+        json.put("stock_symbol", stockSymbol);
+        json.put("type", "stock_data_request_full");
+        busProducer.write(json.encode());
+    }
+
+    // these variables will be decided by the actual player in the game, but we can use test values for now
+    private double intervalTime = 3000; // in milliseconds
+    private double amountOfDataPerInterval = 10; // in point of data
+
+    // method will send a request to server in order to get data in smaller intervals
+    public void sendSelectedStockInterval() {
+        btnStart.setDisable(true);
+
+        JsonArray jsonArray = new JsonArray();
+        for (Object stockSymbol: lstStockSelect.getItems()) {
+            jsonArray.add((String) stockSymbol);
+        }
+
+        JsonObject json = new JsonObject();
+        json.put("stock_symbols", jsonArray);
+        json.put("interval_time", intervalTime);
+        json.put("amount_per_interval", amountOfDataPerInterval);
+        json.put("type", "stock_data_request_interval");
+        busProducer.write(json.encode());
+    }
+
+    // method will update the leaderboard accordingly
+    public void updateLeaderboard(JsonObject jsonObject) {
+        System.out.println("leaderboard update function");
+        JsonArray names = jsonObject.getJsonArray("players");
+        JsonArray scores = jsonObject.getJsonArray("scores");
+        lstGamePlayers.getItems().clear();
+        ArrayList<String> namesList = new ArrayList<>();
+        ArrayList<Double> scoresList = new ArrayList<>();
+        for (int i = 0;i < names.size();i++) {
+            namesList.add(names.getString(i));
+            scoresList.add(scores.getDouble(i));
+        }
+        if (namesList.size() == 2) {
+            if (scoresList.get(0) > scoresList.get(1)) {
+                lstGamePlayers.getItems().add(namesList.get(0) + "                    $" + scoresList.get(0));
+                lstGamePlayers.getItems().add(namesList.get(1) + "                    $" + scoresList.get(1));
+            } else {
+                lstGamePlayers.getItems().add(namesList.get(1) + "                    $" + scoresList.get(1));
+                lstGamePlayers.getItems().add(namesList.get(0) + "                    $" + scoresList.get(0));
+            }
+        } else if (namesList.size() > 2) {
+            // Insertion Sort to set scores and names in ascending order
+            for (int j = 1;j < scoresList.size() - 1;j++) {
+                double tempNum = scoresList.get(j);
+                String tempName = namesList.get(j);
+                int k = j - 1;
+                while (k >= 0 && tempNum <= scoresList.get(k)) {
+                    scoresList.set(k + 1, scoresList.get(k));
+                    namesList.set(k + 1, namesList.get(k));
+                    k = k - 1;
+                }
+                scoresList.set(k + 1, tempNum);
+                namesList.set(k + 1, tempName);
+            }
+            for (int h = namesList.size() - 1;h >= 0;h--) {
+                lstGamePlayers.getItems().add(namesList.get(h) + "                    $" + scoresList.get(h));
+            }
+        }
+    }
+
+    // method will actually receive the full amount of data and update the graph accordingly
+    public void updateChartFull(JsonObject json) {
+
+        lblStockName.setText(json.getString("stock_name") + " (" + json.getString("stock_symbol") + ")");
+        lblCurrentSharePrice.setText("The Current Share Price for " + json.getString("stock_symbol") + ":");
+        lblCurrentSharePriceNumber.setText("--- USD");
+
+        chrtStock.getData().clear();
+
+        xaxisStock.setLabel("Daily Time Series");
+        yaxisStock.setLabel("Open Price Per Day");
+
+        double minDoubleValue = Double.MAX_VALUE;
+        double maxDoubleValue = Double.MIN_VALUE;
+        XYChart.Series series = new XYChart.Series();
+        for (int i = 0;i < json.getJsonArray("open_prices").size();i += 2) {
+            double yValue = json.getJsonArray("open_prices").getDouble(i);
+            series.getData().add(new XYChart.Data(i, yValue));
+            if (yValue <= minDoubleValue) {
+                minDoubleValue = yValue;
+            } else if (yValue >= maxDoubleValue) {
+                maxDoubleValue = yValue;
+            }
+        }
+
+        yaxisStock.setAutoRanging(false);
+        yaxisStock.setLowerBound(minDoubleValue - 10.0);
+        yaxisStock.setUpperBound(maxDoubleValue + 10.0);
+
+        xaxisStock.setAutoRanging(true);
+
+        chrtStock.setCreateSymbols(false);
+        chrtStock.setLegendVisible(false);
+
+        chrtStock.getData().add(series);
+
+    }
+
+    // used in our updateChartInterval() method
+    private boolean firstTimeRun = true;
+    private ArrayList<StockIntervalData> stockIntervalDataList = new ArrayList<>();
+    private StockIntervalData currentStock = null;
+    // for now the first thing the graph shows will automatically be set to the first stock in the list
+    private String previousStockSelected = "--NONE--";
+    private String selectedStockSymbol;
+
+    // method will be built in order to update a chart based on intervals of data that come in from the server
+    public void updateChartInterval(JsonObject json) {
+
+        selectedStockSymbol = (String) lstStockSelect.getItems().get(0);
+
+        // if-statement so that we only create all of our StockIntervalData objects only once
+        if (firstTimeRun) {
+            for (int i = 0;i < json.getJsonArray("complete_interval_data").size();i++) {
+                JsonObject jsonObject = json.getJsonArray("complete_interval_data").getJsonObject(i);
+                stockIntervalDataList.add(new StockIntervalData(jsonObject.getString("stock_name"), jsonObject.getString("stock_symbol"), jsonObject.getDouble("number_of_shares")));
+            }
+            firstTimeRun = false;
+        }
+
+        // code to update the leaderboard located here
+        updateLeaderboard(json);
+
+        // clearing graph and adding a different series to graph if user clicks on a different stock
+        selectedStockSymbol = (String) lstStockSelect.getSelectionModel().getSelectedItem();
+        if (selectedStockSymbol != null) {
+
+            if (!previousStockSelected.equals(selectedStockSymbol)) {
+                previousStockSelected = selectedStockSymbol;
+                chrtStock.getData().clear();
+                for (StockIntervalData stock: stockIntervalDataList) {
+                    if (stock.getStockSymbol().equals(selectedStockSymbol)) {
+                        stock.addSeriesToGraph(chrtStock);
+                        currentStock = stock;
+                    }
+                }
+            }
+
+            // actually retrieving the data from the JsonObjects
+            StockIntervalData selectedStockIntervalData = null;
+            for (int i = 0;i < json.getJsonArray("complete_interval_data").size();i++) {
+                JsonObject jsonObject = json.getJsonArray("complete_interval_data").getJsonObject(i);
+                for (StockIntervalData stockIntervalData: stockIntervalDataList) {
+                    if (stockIntervalData.getStockSymbol().equals(jsonObject.getString("stock_symbol"))) {
+                        selectedStockIntervalData = stockIntervalData;
+                        for (int j = 0;j < jsonObject.getJsonArray("open_prices").size();j++) {
+                            stockIntervalData.addData(jsonObject.getJsonArray("open_prices").getDouble(j));
+                        }
+                        stockIntervalData.setNumOfShares(jsonObject.getDouble("number_of_shares"));
+                        stockIntervalData.setCurrentValueStock(jsonObject.getDouble("current_value_stock"));
+                        stockIntervalData.setAmountInvestedStock(jsonObject.getDouble("amount_invested_stock"));
+                    }
+                }
+            }
+
+            // will update the time remaining in terms of minutes and seconds
+            double totalNumOfMillisecondsLeft = json.getDouble("total_num_of_milliseconds_left");
+            int minutesRemaining = (int) totalNumOfMillisecondsLeft / 60000;
+            int secondsRemaining = ((int) totalNumOfMillisecondsLeft % 60000) / 1000;
+            if (secondsRemaining < 10) {
+                lblTimeRemaining.setText(minutesRemaining + ":0" + secondsRemaining);
+            } else {
+                lblTimeRemaining.setText(minutesRemaining + ":" + secondsRemaining);
+            }
+
+            lblCurrentValue.setText("$" + json.getDouble("current_value_account"));
+            lblAmountInvested.setText("$" + json.getDouble("money_invested_account"));
+            lblProfitOrLoss.setText("$" + json.getDouble("profit_or_loss_account"));
+
+            // method call will change all the labels associated with the graph, as well as any axis changes that might be required
+            currentStock.graphData(chrtStock, xaxisStock, yaxisStock, lblStockName, lblCurrentSharePrice, lblCurrentSharePriceNumber, lblShareNumber, lblCurrentValueStock, lblAmountInvestedStock);
+
+            // method call will update all of the account statistics that come from the server
+            if (selectedStockIntervalData != null) {
+                updateAccountStatistics(json.getDouble("account_balance"));
+            }
+
+        }
+
+    }
+
+    // method will be used in order to update all of our account statistics
+    public void updateAccountStatistics(double accountBalance) {
+        lblAccountBalance.setText("$" + accountBalance);
+    }
+
+    // method will be used for abstraction purposes in both the buy and sell request functions below
+    public void sendShareTransaction(String type) {
+        String latestSharePrice = lblCurrentSharePriceNumber.getText().substring(0, lblCurrentSharePriceNumber.getText().indexOf(" "));
+        int numOfSharesRequested = Integer.parseInt(txtfiNumOfShares.getText());
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.put("stock_symbol", selectedStockSymbol);
+        jsonObject.put("share_price", latestSharePrice);
+        jsonObject.put("number_of_shares", numOfSharesRequested);
+        jsonObject.put("type", type);
+        System.out.println(jsonObject.encode());
+        busProducer.write(jsonObject.encode());
+        System.out.println(type + "       " + numOfSharesRequested + "      " + selectedStockSymbol + "     " + latestSharePrice);
+    }
+
+    // method will send a request to the server so that the player can buy shares in a stock
+    public void sendBuyRequest() {
+        sendShareTransaction("buy_request");
+    }
+
+    // method will send a request to the server so that the player can sell shares in a stock
+    public void sendSellRequest() {
+        sendShareTransaction("sell_request");
+    }
+
+}
