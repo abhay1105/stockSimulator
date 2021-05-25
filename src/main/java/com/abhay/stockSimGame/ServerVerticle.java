@@ -54,7 +54,7 @@ public class ServerVerticle extends AbstractVerticle {
                         // whenever a new client has connected
                         server.websocketStream().handler(socket -> {
                             // creates a new ClientConnection for every new client that connects to the server
-                            ClientConnection newClient = new ClientConnection(m_vertx, socket, m_logger, allGames);
+                            ClientConnection newClient = new ClientConnection(m_vertx, socket, m_logger, allGames, map);
                             // map will allow us to keep track of all of our ClientConnections using the respective
                             // socket IDs
                             map.put(socket.textHandlerID(), newClient);

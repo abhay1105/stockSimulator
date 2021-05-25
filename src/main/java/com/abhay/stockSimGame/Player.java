@@ -1,6 +1,9 @@
 package com.abhay.stockSimGame;
 
 
+import java.util.ArrayList;
+import java.util.Map;
+
 // class will manage a player in the game
 public class Player {
 
@@ -18,9 +21,13 @@ public class Player {
     public String getName() { return name; }
     public Account getAccount() { return account; }
 
-    public double getCurrentValue() {
-        System.out.println("CURRENT VALUE FUNCTION DOES NOT EXIST FOR PLAYER SUBCLASS");
-        return 0;
+    public double getCurrentValue(Map<String, ArrayList<Double>> entireList) {
+        double sum = 0;
+        for (Position position: account.getPositions()) {
+            ArrayList<Double> dataList = entireList.get(position.getStock().getSymbol());
+            sum += position.getNumOfShares() * dataList.get(dataList.size() - 1);
+        }
+        return sum;
     }
 
 }

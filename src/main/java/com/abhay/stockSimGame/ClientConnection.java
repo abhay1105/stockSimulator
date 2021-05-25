@@ -9,27 +9,32 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 // class will take care of the connection between the server and a client
 public class ClientConnection {
 
     // all variables located here
-    private ServerWebSocket              webSocket;
-    private Logger                       logger;
-    private Player                       player;
-    private MACDPlayer                   macdPlayer = new MACDPlayer();
-    private AROONPlayer                  aroonPlayer = new AROONPlayer();
-    private Game                         game;
-    private Vertx                        m_vertx;
-    private ArrayList<Game>              allGames;
-    private long                         timerID;
+    private ServerWebSocket                     webSocket;
+    private Logger                              logger;
+    private Player                              player;
+    private MACDPlayer                          macdPlayer = new MACDPlayer();
+    private AROONPlayer                         aroonPlayer = new AROONPlayer();
+    private Game                                game;
+    private Vertx                               m_vertx;
+    private ArrayList<Game>                     allGames;
+    private long                                timerID;
+    private Map<String, ArrayList<Double>>      entireCurrentDataList = new HashMap<>();
+    private HashMap<String, ClientConnection>   allClientConnections;
 
     // class constructor
-    public ClientConnection(Vertx m_vertx, ServerWebSocket webSocket, Logger logger, ArrayList<Game> allGames) {
+    public ClientConnection(Vertx m_vertx, ServerWebSocket webSocket, Logger logger, ArrayList<Game> allGames, HashMap<String, ClientConnection> map) {
         this.m_vertx = m_vertx;
         this.webSocket = webSocket;
         this.logger = logger;
         this.allGames = allGames;
+        this.allClientConnections = map;
         webSocket.handler(buffer -> {
             logger.info(buffer.toString());
             try {
@@ -39,6 +44,9 @@ public class ClientConnection {
             }
         });
     }
+
+    // all getter methods located here
+    public ServerWebSocket getWebSocket() { return webSocket; }
 
     // method to remove a client connection from a running game
     public void removePlayerFromGame() {
@@ -115,6 +123,8 @@ public class ClientConnection {
             // adding any computer opponents after
             game.addPlayer(macdPlayer);
             game.addPlayer(aroonPlayer);
+            // line below makes sure that we add this game to our game arrayList so that other players can join it
+            allGames.add(game);
         } else {
             String gameCode = json.getString("game_code");
             for (Game game: allGames) {
@@ -138,7 +148,7 @@ public class ClientConnection {
                 scores.add(roundToNearestPenny(gamePlayer.getAccount().getCurrentBalance() + playerCurrentValueAccount));
             } else {
                 players.add(gamePlayer.getName());
-                scores.add(roundToNearestPenny(gamePlayer.getAccount().getCurrentBalance() + gamePlayer.getCurrentValue()));
+                scores.add(roundToNearestPenny(gamePlayer.getAccount().getCurrentBalance() + gamePlayer.getCurrentValue(entireCurrentDataList)));
             }
         }
         jsonObject.put("players", players);
@@ -172,12 +182,28 @@ public class ClientConnection {
     // used in sendStockDataInterval() method
     private double totalProgressOfMilliseconds = 0;
 
+    // method will start the game for the other players in the lobby when it has realized that one player has started the game
+    public void startGameForOtherPlayers() {
+        for (Map.Entry<String, ClientConnection> set: allClientConnections.entrySet()) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.put("type", "start_game_for_all");
+            set.getValue().getWebSocket().writeTextMessage(jsonObject.encode());
+            System.out.println("Message finished sending         " + set.getKey());
+        }
+    }
+
     // method will send all of the appropriate stock data in intervals based on a specific time length
     public void sendStockDataInterval(JsonObject json) {
+
+        startGameForOtherPlayers();
 
         JsonArray jsonArray = json.getJsonArray("stock_symbols");
         double intervalTime = json.getDouble("interval_time");
         double amountOfDataPerInterval = json.getDouble("amount_per_interval");
+
+        for (Object stock: jsonArray) {
+            entireCurrentDataList.put((String) stock, new ArrayList<>());
+        }
 
         // will run every second regardless, but will technically only send data every time a full interval has been completed
         timerID = m_vertx.setPeriodic(1000, aLong -> {
@@ -207,6 +233,7 @@ public class ClientConnection {
                         for (int i = dataCountIndividual;i < endOfInterval && i < game.getStockBySymbol((String) stockSymbol).getHistoricalData().size();i++) {
                             BarData barData = game.getStockBySymbol((String) stockSymbol).getHistoricalData().get(i);
                             oneStockIntervalPrices.add(barData.getOpen() / barData.getSplitCoefficient());
+                            entireCurrentDataList.get(stockSymbol).add(barData.getOpen() / barData.getSplitCoefficient());
                             macdPlayer.updateDataLists((String) stockSymbol, barData.getOpen() / barData.getSplitCoefficient());
                             aroonPlayer.updateDataLists((String) stockSymbol, barData.getOpen() / barData.getSplitCoefficient());
                             dataCountIndividual = i + 1;
@@ -258,7 +285,7 @@ public class ClientConnection {
             // stopping the timer once there is no longer enough data in one of the stocks (at least for now, eventually
             // we will add an end time to stop)
             if (game.getTimePeriod() == totalProgressOfMilliseconds) {
-                System.out.println("stopped timer due to lack of data");
+//                System.out.println("stopped timer due to lack of data");
                 m_vertx.cancelTimer(timerID);
             }
 

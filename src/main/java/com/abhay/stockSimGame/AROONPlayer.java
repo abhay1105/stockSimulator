@@ -92,13 +92,13 @@ public class AROONPlayer extends Player {
                 boolean analysisValue2 = isBullishMarket.get(stockSymbol).get(isBullishMarket.get(stockSymbol).size() - 1);
                 if (analysisValue1 && !analysisValue2) {
                     // we want to sell a stock when the trend has switched to downwards
-                    System.out.println(" kimbo sold a stock ");
+//                    System.out.println(" kimbo sold a stock ");
                     if (position.getNumOfShares() > 0) {
                         position.sellShares(riskFactor, stockDataPoints.get(stockSymbol).get(stockDataPoints.get(stockSymbol).size() - 1));
                     }
                 } else if (!analysisValue1 && analysisValue2) {
                     // we want to buy a stock when the trend has switched to upwards
-                    System.out.println(" kimbo bought a stock ");
+//                    System.out.println(" kimbo bought a stock ");
                     position.buyShares(riskFactor, stockDataPoints.get(stockSymbol).get(stockDataPoints.get(stockSymbol).size() - 1));
                 }
                 break;
@@ -107,7 +107,7 @@ public class AROONPlayer extends Player {
     }
 
     // method will return the current value of the computer bot's portfolio
-    public double getCurrentValue() {
+    public double getCurrentValue(Map<String, ArrayList<Double>> entireList) {
         double sum = 0;
         for (Position position: getAccount().getPositions()) {
             ArrayList<Double> dataList = stockDataPoints.get(position.getStock().getSymbol());
